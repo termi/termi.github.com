@@ -30,7 +30,8 @@ var nodeProto = global.Node.prototype,//Note: for IE < 8 `Node` and `Node.protot
 		"x-i", "x-s"//From https://github.com/termi/Element.details/
 	],
 	ielt8BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}",
-	ielt7BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\") url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\")}";
+	ielt7BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\") url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\")}",
+	_call = Date.call;
 	
 if(!document.readyState) {
 	noDocumentReadyState = true;
@@ -477,7 +478,8 @@ if(!document.querySelector)document.querySelector = global["_ielt8_querySelector
 
 var originCreateElement = document.createElement;
 document.createElement = function(tagName) {
-	var el = originCreateElement.apply(document, arguments);
+	var el = _call.call(originCreateElement, document, tagName);
+	
 	
 	//FIX IE lt 8 Element.prototype
 	//Object.append(el, nodeProto);
@@ -486,10 +488,15 @@ document.createElement = function(tagName) {
 	tagName = tagName.toLowerCase();
 	if(!~__SUPPORTED__TAG_NAMES__.indexOf("," + tagName + ",") && !~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
 		//style
-		var style = originCreateElement.call(document, "style");
+		/*var style = originCreateElement.call(document, "style");
 		style.type = 'text/css';
 		style.styleSheet.cssText = tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}";
-		document.head.appendChild(style);
+		document.head.appendChild(style);*/
+		
+		//ugly, but work
+		document.write("<style>" + tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}" + "</style>");
+		
+		tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}";
 		
 		supportedTagNames.push(tagName);
 	}

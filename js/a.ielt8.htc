@@ -19,6 +19,9 @@
 <PUBLIC:PROPERTY NAME="labels" GET="getLabels" />
 
 <SCRIPT>
+//[attributes] 1
+var getAttributes = window._ielt8_getAttributes;
+
 /*@requared window.Node.prototype = { ielt8 : true }*/
 var Element_proto=window.Node.prototype,
 	getChildren=Element_proto.getchildren,
@@ -34,8 +37,8 @@ var Element_proto=window.Node.prototype,
 	getDPF=function(){return 0x04},
 	getDPC=function(){return 0x08},
 	getDPCB=function(){return 0x10},
-	getControl=np.getcontrol,
-	getLabels=np.getlabels;
+	getControl=Element_proto.getcontrol,
+	getLabels=Element_proto.getlabels;
 	
 if(this != window) {//Strange IE bug where this === window
 	if(!this.compareDocumentPosition)this.compareDocumentPosition=Element_proto.compareDocumentPosition;
@@ -54,7 +57,7 @@ if(this != window) {//Strange IE bug where this === window
 
 	if(!this._)this._={};
 
-	//attributes property start
+	//[attributes] 2
 	/*
 		[BUG]strange behavior on 'object' element: IE < 8 won't create '_' container
 		*/
@@ -62,8 +65,6 @@ if(this != window) {//Strange IE bug where this === window
 	//Save original attributes property if we don't do it
 	if(!this._.__ielt8_attributes__)this._.__ielt8_attributes__=this.attributes;
 }
-var getAttributes = window._ielt8_getAttributes;
-//attributes property end
 
 
 </SCRIPT>
