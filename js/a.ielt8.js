@@ -484,7 +484,7 @@ document.createElement = function(tagName) {
 	if(!~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
 		//style
 		var style = originCreateElement.call(document, "x-i");
-		style.insertRule("<br><style>" + tagName + "{behavior: url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\")</style>");
+		style.insertRule(tagName + "{behavior: url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\")}");
 		document.head.appendChild(style);
 		
 		supportedTagNames.push(tagName);
