@@ -13,9 +13,9 @@
 
 //CONFIG START
 var /** @const*/
-	__URL_TO_ELEMENT_BEHAVIOR__     = '/a.ielt8.htc',
+	__URL_TO_ELEMENT_BEHAVIOR__     = '/js/a.ielt8.htc',
 	/** @const*/
-	__URL_TO_IE6_ELEMENT_BEHAVIOR__ = '/a.ie6.ielt8.htc',
+	__URL_TO_IE6_ELEMENT_BEHAVIOR__ = '/js/a.ie6.ielt8.htc',
 	/** @const*/
 	__STYLE_ID                      = "ielt8_style_prev_for_behaviour",
 	/** @const List of supportng tag names */
@@ -30,7 +30,7 @@ var nodeProto = global.Node.prototype,//Note: for IE < 8 `Node` and `Node.protot
 		"x-i", "x-s"//From https://github.com/termi/Element.details/
 	],
 	ielt8BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}",
-	ielt7BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\") url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}";
+	ielt7BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\") url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\")}";
 	
 if(!document.readyState) {
 	noDocumentReadyState = true;
@@ -540,7 +540,7 @@ var prevStyle = document.getElementById(__STYLE_ID),
 	rule = browser.msie < 7 ? ielt7BehaviorRule : ielt8BehaviorRule;
 
 if(prevStyle){
-	add = prevStyle.getAttribute("data-url")||"";
+	add = prevStyle.getAttribute("data-url") || "";
 	prevStyle.id = "";
 }
 

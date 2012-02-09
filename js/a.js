@@ -83,7 +83,7 @@ browser.ipad = browser["ipad"];
 
 if(browser.msie)for(var i = 6 ; i < 11 ; i++)//IE from 6 to 10
 	if(new RegExp('msie ' + i).test(browser.agent)) {
-		browser.msie = i;
+		browser.msie = browser["msie"] = i;
 		
 		break;
 	}
@@ -1411,6 +1411,8 @@ Object.defineProperty((global["HTMLUnknownElement"] && global["HTMLUnknownElemen
 // IE9 thinks the argument is not optional
 // FF thinks the argument is not optional
 // Opera agress that its not optional
+// IE < 9 has javascript implimentation
+if(document.importNode["shim"])
 try {
 	document.importNode(_testElement);
 } catch (e) {
