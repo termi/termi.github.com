@@ -1,51 +1,70 @@
-<PUBLIC:COMPONENT lightWeight="true">
-<PUBLIC:PROPERTY NAME="classList" GET="a" />
-<PUBLIC:PROPERTY NAME="attributes" GET="b" />
-<PUBLIC:PROPERTY NAME="children" GET="c" />
-<PUBLIC:PROPERTY NAME="dataset" GET="e" />
-<PUBLIC:PROPERTY NAME="firstElementChild" GET="f" />
-<PUBLIC:PROPERTY NAME="lastElementChild" GET="g" />
-<PUBLIC:PROPERTY NAME="nextElementSibling" GET="h" />
-<PUBLIC:PROPERTY NAME="previousElementSibling" GET="i" />
-<PUBLIC:PROPERTY NAME="childElementCount" GET="k" />
-<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_DISCONNECTED" GET="l" />
-<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_PRECEDING" GET="m" />
-<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_FOLLOWING" GET="n" />
-<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_CONTAINS" GET="o" />
-<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_CONTAINED_BY" GET="p" />
-<PUBLIC:PROPERTY NAME="control" GET="q" />
-<PUBLIC:PROPERTY NAME="labels" GET="l" />
+﻿<PUBLIC:COMPONENT lightWeight="true">
+<PUBLIC:PROPERTY NAME="classList" GET="getClassList" />
+<PUBLIC:PROPERTY NAME="attributes" GET="getAttributes" />
+<PUBLIC:PROPERTY NAME="children" GET="getChildren" />
+<PUBLIC:PROPERTY NAME="dataset" GET="getDataset" />
+<PUBLIC:PROPERTY NAME="firstElementChild" GET="getFirstElementChild" />
+<PUBLIC:PROPERTY NAME="lastElementChild" GET="getLastElementChild" />
+<PUBLIC:PROPERTY NAME="nextElementSibling" GET="getNextElementSibling" />
+<PUBLIC:PROPERTY NAME="previousElementSibling" GET="getPreviousElementSibling" />
+<PUBLIC:PROPERTY NAME="childElementCount" GET="getChildElementCount" />
+
+<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_DISCONNECTED" GET="getDPD" />
+<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_PRECEDING" GET="getDPP" />
+<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_FOLLOWING" GET="getDPF" />
+<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_CONTAINS" GET="getDPC" />
+<PUBLIC:PROPERTY NAME="DOCUMENT_POSITION_CONTAINED_BY" GET="getDPCB" />
+
+<PUBLIC:PROPERTY NAME="control" GET="getControl" />
+<PUBLIC:PROPERTY NAME="labels" GET="getLabels" />
+
 <SCRIPT>
-var np=window.Node.prototype,
-a=np.getclassList,
-b=window._ielt8_getAttributes,
-c=np.getchildren,
-e=np.getdataset,
-f=np.getfirstElementChild,
-g=np.getlastElementChild,
-h=np.getnextElementSibling,
-i=np.getpreviousElementSibling,
-k=np.getchildElementCount,
-l=function(){return 1},
-m=function(){return 2},
-n=function(){return 4},
-o=function(){return 8},
-p=function(){return 16},
-q=np.getcontrol,
-l=np.getlabels;
-if(this!=window){
-if(!this.hasAttribute)this.hasAttribute=np.hasAttribute;
-if(!this.compareDocumentPosition)this.compareDocumentPosition=np.compareDocumentPosition;
-if(!this.getElementsByClassName)this.getElementsByClassName=np.getElementsByClassName;
-if(!this.insertAfter)this.insertAfter=np.insertAfter;
-if(!this.addEventListener)this.addEventListener=window.addEventListener;
-if(!this.removeEventListener)this.removeEventListener=window.removeEventListener;
-if(!this.dispatchEvent)this.dispatchEvent=window.dispatchEvent;
-if(this.cloneNode!==np.cloneNode)this.cloneNode=np.cloneNode;
-if(!this._)this._={};
-if(!this._.__ielt8_attributes__)this._.__ielt8_attributes__=this.attributes;
-if(!this.querySelectorAll)this.querySelectorAll=window._ielt8_querySelectorAll;
-if(!this.querySelector)this.querySelector=window._ielt8_querySelector;
+/*@requared window.Node.prototype = { ielt8 : true }*/
+var Element_proto=window.Node.prototype,
+	getChildren=Element_proto.getchildren,
+	getClassList=Element_proto.getclassList,
+	getLastElementChild=Element_proto.getlastElementChild,
+	getFirstElementChild=Element_proto.getfirstElementChild,
+	getNextElementSibling=Element_proto.getnextElementSibling,
+	getPreviousElementSibling=Element_proto.getpreviousElementSibling,
+	getChildElementCount=Element_proto.getchildElementCount,
+	getDataset=Element_proto.getdataset,
+	getDPD=function(){return 0x01},
+	getDPP=function(){return 0x02},
+	getDPF=function(){return 0x04},
+	getDPC=function(){return 0x08},
+	getDPCB=function(){return 0x10},
+	getControl=np.getcontrol,
+	getLabels=np.getlabels;
+	
+if(this != window) {//Strange IE bug where this === window
+	if(!this.compareDocumentPosition)this.compareDocumentPosition=Element_proto.compareDocumentPosition;
+	if(!this.compareDocumentPosition)window.__ielt8__wontfix.push(this);//'OBJECT' tag
+	if(!this.getElementsByClassName)this.getElementsByClassName=Element_proto.getElementsByClassName;
+	if(!this.insertAfter)this.insertAfter=Element_proto.insertAfter;
+	/*@requared: window.addEventListener, window.removeEventListener, window.dispatchEvent */
+	if(!this.addEventListener)this.addEventListener=window.addEventListener;
+	if(!this.removeEventListener)this.removeEventListener=window.removeEventListener;
+	if(!this.dispatchEvent)this.dispatchEvent=window.dispatchEvent;
+	if(this.cloneNode!==Element_proto.cloneNode)this.cloneNode=Element_proto.cloneNode;
+	if(!this.hasAttribute)this.hasAttribute!==Element_proto.hasAttribute;
+
+	if(!this.querySelectorAll)this.querySelectorAll=window._ielt8_querySelectorAll;
+	if(!this.querySelector)this.querySelector=window._ielt8_querySelector;
+
+	if(!this._)this._={};
+
+	//attributes property start
+	/*
+		[BUG]strange behavior on 'object' element: IE < 8 won't create '_' container
+		*/
+	/*@requared window._ielt8_getAttributes */
+	//Save original attributes property if we don't do it
+	if(!this._.__ielt8_attributes__)this._.__ielt8_attributes__=this.attributes;
 }
+var getAttributes = window._ielt8_getAttributes;
+//attributes property end
+
+
 </SCRIPT>
 </PUBLIC:COMPONENT>
