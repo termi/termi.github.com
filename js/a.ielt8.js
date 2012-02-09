@@ -488,8 +488,14 @@ document.createElement = function(tagName) {
 		//style
 		var style = originCreateElement.call(document, "style");
 		if(style.insertRule)
-			style.insertRule(tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}");
-		else style.addRule(tagName, "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}")
+			style.insertRule(tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}")
+		else if(style.addRule)
+			style.addRule(tagName, "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}")
+		else {
+			//Arrrrrghhh
+			style = originCreateElement.call(document, "x-i");
+			style.innerHTML = "<br><style>" + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}</style>";
+		}
 		document.head.appendChild(style);
 		
 		supportedTagNames.push(tagName);
