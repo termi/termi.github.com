@@ -487,15 +487,7 @@ document.createElement = function(tagName) {
 	if(!~__SUPPORTED__TAG_NAMES__.indexOf("," + tagName) && !~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
 		//style
 		var style = originCreateElement.call(document, "style");
-		if(style.insertRule)
-			style.insertRule(tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}")
-		else if(style.addRule)
-			style.addRule(tagName, "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}")
-		else {
-			//Arrrrrghhh
-			style = originCreateElement.call(document, "x-i");
-			style.innerHTML = "<br><style>" + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}</style>";
-		}
+		style.styleSheet.cssText = tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}";
 		document.head.appendChild(style);
 		
 		supportedTagNames.push(tagName);
@@ -550,7 +542,7 @@ if(add) {
 
 document.write(
 	"<style id='" + __STYLE_ID + 
-	"' data-url='" + add.replace("{behavior:", "").replace(")}", ")") + 
+	"' data-url='" + rule.replace("{behavior:", "").replace(")}", ")") + 
 	"'>" + __SUPPORTED__TAG_NAMES__ + rule + 
 	"</style>"
 	);
