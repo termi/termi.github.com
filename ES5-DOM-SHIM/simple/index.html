@@ -23,7 +23,13 @@ document.createElement("c");
 document.createElement("h");
 document.createElement("f");
 </script>
-<script src="/js/a.js"></script>
+<!--[if lt IE 9]>
+<script src="a.ie8.js"></script>
+<![endif]-->
+<script src="a.js"></script>
+<!--[if lt IE 8]>
+<script src="a.ielt8.js"></script>
+<![endif]-->
 
 </head>
 <body>
