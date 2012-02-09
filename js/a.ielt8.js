@@ -478,7 +478,7 @@ document.createElement = function(tagName) {
 	var el = originCreateElement.apply(document, arguments);
 	
 	//FIX IE lt 8 Element.prototype
-	Object.append(el, nodeProto);
+	//Object.append(el, nodeProto);
 	//TODO:: add behavior
 	
 	if(!~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
