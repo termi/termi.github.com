@@ -28,7 +28,9 @@ var nodeProto = global.Node.prototype,//Note: for IE < 8 `Node` and `Node.protot
 	supportedTagNames = __SUPPORTED__TAG_NAMES__.split(","),
 	notSupportedTagNames = ["script", "style", "object", 
 		"x-i", "x-s"//From https://github.com/termi/Element.details/
-	];
+	],
+	ielt8BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}",
+	ielt7BehaviorRule = "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\") url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}";
 	
 if(!document.readyState) {
 	noDocumentReadyState = true;
@@ -482,10 +484,12 @@ document.createElement = function(tagName) {
 	//TODO:: add behavior
 	
 	tagName = tagName.toLowerCase();
-	if(!~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
+	if(!~__SUPPORTED__TAG_NAMES__.indexOf("," + tagName) && !~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
 		//style
 		var style = originCreateElement.call(document, "style");
-		style.insertRule(tagName + "{behavior: url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\")}");
+		if(style.insertRule)
+			style.insertRule(tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}");
+		else style.addRule(tagName, "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}")
 		document.head.appendChild(style);
 		
 		supportedTagNames.push(tagName);
@@ -525,17 +529,25 @@ global.attachEvent('onload', function() {//Native method
 
 
 
-var prevStyle=document.getElementById(__STYLE_ID),add="";
+var prevStyle = document.getElementById(__STYLE_ID),
+	add = "",
+	rule = browser.msie < 7 ? ielt7BehaviorRule : ielt8BehaviorRule;
+
 if(prevStyle){
-add=prevStyle.getAttribute("data-url")||"";
-prevStyle.id="";
+	add = prevStyle.getAttribute("data-url")||"";
+	prevStyle.id = "";
 }
 
-if(browser.msie < 7)add+=(" url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\") ")
+if(add) {
+	rule.replace(" url(", " url(" + add + ") url(");
+}
 
-add+=" url(\""+__URL_TO_ELEMENT_BEHAVIOR__+"\") ";
-
-document.write("<style id='"+__STYLE_ID+"' data-url='"+add+"'>" + __SUPPORTED__TAG_NAMES__ + "{behavior: "+add+"}</style>");
+document.write(
+	"<style id='" + __STYLE_ID + 
+	"' data-url='" + add.replace("{behavior:", "").replace(")}", ")") + 
+	"'>" + __SUPPORTED__TAG_NAMES__ + rule + 
+	"</style>"
+	);
 /*
 [BUG]there is no 'object' tag in this style, because IE < 8 won't apply behavior to 'object' element
 */
