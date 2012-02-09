@@ -487,6 +487,7 @@ document.createElement = function(tagName) {
 	if(!~__SUPPORTED__TAG_NAMES__.indexOf("," + tagName) && !~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
 		//style
 		var style = originCreateElement.call(document, "style");
+		style.type = 'text/css';
 		style.styleSheet.cssText = tagName + "{behavior: url(\"" + __URL_TO_ELEMENT_BEHAVIOR__ + "\")}";
 		document.head.appendChild(style);
 		
