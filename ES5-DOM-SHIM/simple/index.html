@@ -81,8 +81,8 @@ test2
 
 <script>
 
-
 function main() {
+
 	window.addEventListener("someEvent", function doSomething(event) {
 		var i,
 			j = event.target;
@@ -99,6 +99,7 @@ function main() {
 				j.classList.remove(null)
 		}
 	}, false)
+	
 	
 	var dosome1;
 	document.addEventListener("someEvent", dosome1 = function(event) {
@@ -129,31 +130,4 @@ function main() {
 window.addEventListener('DOMContentLoaded', main);
 
 
-
- function dump(arr,maxlevel) {
-	var dumped_text = "";
-	if(!maxlevel)maxlevel = 0;
-	var level = 0;
-	
-	//The padding given at the beginning of the line.
-	var level_padding = "";
-	for(var j=0;j<level+1;j++) level_padding += "    ";
-	
-	if(typeof(arr) == 'object') { //Array/Hashes/Objects 
-		for(var item in arr) {
-			var value = arr[item];
-			
-			if(typeof(value) == 'object' && level < maxlevel) { //If it is an array,
-				dumped_text += level_padding + "'" + item + "' ...\n";
-				dumped_text += dump(value,level - 1);
-				level++
-			} else {
-				dumped_text += level_padding + "'" + item + "' => \"" + value + "\"\n";
-			}
-		}
-	} else { //Stings/Chars/Numbers etc.
-		dumped_text = "===>"+arr+"<===("+typeof(arr)+")";
-	}
-	return dumped_text;
-}
 </script>
