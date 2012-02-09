@@ -1450,8 +1450,6 @@ function isDOMAttrModifiedSupported() {
 	return flag;
 }
 
-if(DEBUG)console.log("DOMAttrModified not supported")
-
 if(!isDOMAttrModifiedSupported()
    && _testElement.dispatchEvent //[temporary]TODO:: remove this when "DOMAttrModified" event whould be imulated in IE < 9
    ) {

@@ -484,7 +484,7 @@ document.createElement = function(tagName) {
 	//TODO:: add behavior
 	
 	tagName = tagName.toLowerCase();
-	if(!~__SUPPORTED__TAG_NAMES__.indexOf("," + tagName) && !~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
+	if(!~__SUPPORTED__TAG_NAMES__.indexOf("," + tagName + ",") && !~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
 		//style
 		var style = originCreateElement.call(document, "style");
 		style.type = 'text/css';
