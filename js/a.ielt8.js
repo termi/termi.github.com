@@ -481,9 +481,10 @@ document.createElement = function(tagName) {
 	//Object.append(el, nodeProto);
 	//TODO:: add behavior
 	
+	tagName = tagName.toLowerCase();
 	if(!~supportedTagNames.indexOf(tagName) && !~notSupportedTagNames.indexOf(tagName)) {
 		//style
-		var style = originCreateElement.call(document, "x-i");
+		var style = originCreateElement.call(document, "style");
 		style.insertRule(tagName + "{behavior: url(\"" + __URL_TO_IE6_ELEMENT_BEHAVIOR__ + "\")}");
 		document.head.appendChild(style);
 		
