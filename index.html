@@ -8,11 +8,6 @@ body {
 	color: gray;
 	font-family: Courier;
 }
-section {
-	width: 400px;
-	border: 1px solid gray;
-	padding: 2em;
-}
 h1 {
 	font-size: 1.5em;
 }
@@ -22,26 +17,43 @@ h2 {
 h3, h4, h5 {
 	font-size: 1.1em;
 }
-footer{
+#main {
+	width: 400px;
+	border: 1px solid gray;
+	padding: 2em;
+}
+#main > footer{
 	margin-top: 1em;
 }
 </style>
 
-<section itemscope="" itemtype="http://schema.org/Person">
+<section id="main" itemscope="" itemtype="http://schema.org/Person">
 	<header>
 		<h1 itemprop="name givenName">Егор</h1>
-		<img itemprop="image" src="http://ru.gravatar.com/userimage/29365255/dcda7d428b74d16ed28c83b0cc7fc332.jpg" />
+		<img itemprop="image" width="80px" height="80px" src="http://ru.gravatar.com/userimage/29365255/dcda7d428b74d16ed28c83b0cc7fc332.jpg" />
+		<h2 itemprop="jobTitle">JS developer</h2>
 	</header>
 	<article class="data">
-		<h2 itemprop="jobTitle">JS developer</h2>
+		<div itemscope="" itemprop="address">
+			<header itemprop="name"><u class="title">Main location</u></header>
+			<div class="data">
+				<span itemprop="addressCountry">Russia, </span>
+				<span itemprop="addressRegion">Moscow</span>
+			</div>
+			<footer>
+				<a href="http://maps.google.com/maps?q=Russia,+Moscow&hl=ru&ie=UTF8&sll=55.738709,37.648773&sspn=0.32471,1.052628&hnear=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0,+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F&t=m&z=10" itemprop="url">View on Google Maps</a>
+			</footer>
+		</div>
 		<br />
 		<a href="tel:+79261115502" itemprop="telephone">+7(926)111-55-02</a>
 		<br />
 		<a href="mailto:1+h123@h123.ru?subject=[From home page]Hi Egor!" itemprop="email">1+h123@h123.ru</a>
+		<br />
+		<a href="skype:termi_uc" itemprop="email">skype:termi_uc</a>
 	</article>
 	<footer>
-		<a href="https://github.com/termi/">Follow me on github</a><br />
-		<a href="https://twitter.com/termi_uc">Follow me on twitter</a><br />
-		<a href="http://habrahabr.ru/users/termi/">Follow me on habrahabr</a><br />
+		<a href="https://github.com/termi/">github</a><br />
+		<a href="https://twitter.com/termi_uc">twitter</a><br />
+		<a href="http://habrahabr.ru/users/termi/">habrahabr</a><br />
 	</footer>
 </section>
