@@ -72,7 +72,7 @@ function main() {
 		redrawDotNav();
     };
 	
-	$$0("#primary").addEventListener("click", delegate(".manned-flight", function(e) {
+	$$0("#primary").addEventListener("click", delegate("a", function(e) {
 		scrollTo(0, $$0(e.target.getAttribute("href")));
     	parallaxScroll(); // Callback is required for iOS
     	return false;
