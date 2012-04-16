@@ -73,10 +73,15 @@ function main() {
 		redrawDotNav();
     };
 	
+	var url = location.protocol + "//" + location.host + location.pathname;
+	
 	$$0("#primary").addEventListener("click", delegate("a", function(e) {
-		scrollTo(0, $$0(e.target.getAttribute("href").replace(location.href.substr(0, location.href.indexOf("#")), "")).offsetTop);
+		var anchore = location.href.indexOf("#") === -1
+			toY = 
+		window.scrollTo(0, $$0(e.target.getAttribute("href").replace(url, "")).offsetTop);
     	parallaxScroll(); // Callback is required for iOS
 		redrawDotNav();
+    	return false;
 	}));
 }
 
