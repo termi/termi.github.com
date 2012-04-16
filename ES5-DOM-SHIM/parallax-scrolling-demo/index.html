@@ -73,9 +73,9 @@ function main() {
     };
 	
 	$$0("#primary").addEventListener("click", delegate("a", function(e) {
-		scrollTo(0, $$0(e.target.getAttribute("href").replace(location.href.substr(0, location.href.indexOf("#")), "")));
+		scrollTo(0, $$0(e.target.getAttribute("href").replace(location.href.substr(0, location.href.indexOf("#")), "")).offsetTop);
     	parallaxScroll(); // Callback is required for iOS
-    	return false;
+		redrawDotNav();
 	}));
 }
 
