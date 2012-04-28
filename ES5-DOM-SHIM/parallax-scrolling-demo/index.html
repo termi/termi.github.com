@@ -23,49 +23,51 @@
 
 
 <script>
+//cubic-bezier timing function
+var lineanBezier=function(q,w,e,r){function b(d,g,i,h){this.b={x:d,y:g};this.c={x:i,y:h}}function c(d,g,i){var h=3*g,g=3*(i-g)-h;
+return(((1-h-g)*d+g)*d+h)*d}b.prototype.get=function(d){var g=this;if(0==d||1==d)return{x:d,y:d};if(!(0<d)||!(1>d))throw new RangeError;
+return{x:c(d,g.b.x,g.c.x),y:c(d,g.b.y,g.c.y)}};return new b(q,w,e,r)}(1,1,1,1);
+
 //aliases
-$$ = Function.prototype.bind.call(document.querySelectorAll, document);
-$$0 = Function.prototype.bind.call(document.querySelector, document);
+var $$ = Function.prototype.bind.call(document.querySelectorAll, document);
+var $$0 = Function.prototype.bind.call(document.querySelector, document);
 
 //https://gist.github.com/2369790
-function delegate(a,b,c,d){return function(e){d=e.target;do if(d.matchesSelector(a)){e.target=d;if(e.target!=d){delete e.target;e.target=d};c=b.call(this,e)}while(c!==false&&d!=this&&(d=d.parentNode));return c}};
+function delegate(a,b,c,d){return function(e){d=e.target;do if(d.matchesSelector(a)){try{e.target=d}catch(r){};if(e.target!=d){
+try{delete e.target}catch(r){};e.target=d};c=b.call(this,e)}while(c!==false&&d!=this&&(d=d.parentNode));return c}};
 
 function main() {
 	/* Set navigation dots to an active state as the user scrolls */
-	function redrawDotNav(){
-		var section1Top =  0;
-		// The top of each section is offset by half the distance to the previous section.
-		var section2Top =  $$0('#frameless-parachute').offsetTop - (($$0('#english-channel').offsetTop - $$0('#frameless-parachute').offsetTop) / 2);
-		var section3Top =  $$0('#english-channel').offsetTop - (($$0('#about').offsetTop - $$0('#english-channel').offsetTop) / 2);
-		var section4Top =  $$0('#about').offsetTop - ((document.documentElement.scrollHeight - $$0('#about').offsetTop) / 2);
+	var sectionNodes = $$(".section"),
+		sections = sectionNodes.map(function(node, index) { return {//NodeList now inherit from Array so we can use Array methods
+			// The top of each section is offset by half the distance to the previous section.
+			top : index === 0 ? 0 :
+				index === sectionNodes.length -1 ? node.offsetTop - ((document.documentElement.scrollHeight - node.offsetTop) / 2) :
+				node.offsetTop - (sectionNodes[index + 1].offsetTop - node.offsetTop) / 2,
+			navLink : node.id ? $$0("[href='#" + node.id + "']") : null,
+			node : node/*,
+			refId : "#" + node.id*/
+		} });
 		
-		Array.from($$('nav#primary a')).forEach(function(n){n.classList.remove('active')});
-		
-		if(window.pageYOffset >= section1Top && window.pageYOffset < section2Top){
-			$$0('nav#primary a.manned-flight').classList.add('active');
-		} else if (window.pageYOffset >= section2Top && window.pageYOffset < section3Top){
-			$$0('nav#primary a.frameless-parachute').classList.add('active');
-		} else if (window.pageYOffset >= section3Top && window.pageYOffset < section4Top){
-			$$0('nav#primary a.english-channel').classList.add('active');
-		} else if (window.pageYOffset >= section4Top){
-			$$0('nav#primary a.about').classList.add('active');
+	function redrawDotNav() {
+		var i = -1,
+			sect;
+			
+		while(sect = sections[++i]) {
+			if(window.pageYOffset >= sect.top && (i == sections.length - 1 || window.pageYOffset < sections[i + 1].top))
+				sect.navLink.classList.add('active');
+			else sect.navLink.classList.remove('active');
 		}
-		
 	}
 	
 	redrawDotNav();
 	
-	var parallaxBg1 = $$0("#parallax-bg1"),
-		parallaxBg2 = $$0('#parallax-bg2'),
-		parallaxBg3 = $$0('#parallax-bg3');
+	var parallaxBgs = Array.from($$(".parallax-bg")).reverse();
 
 	/* Scroll the background layers */
-	function parallaxScroll(){
-		var scrolled = window.pageYOffset;
-		parallaxBg1.style.top = (0-(scrolled*.25))+'px';
-		parallaxBg2.style.top = (0-(scrolled*.5))+'px';
-		parallaxBg3.style.top = (0-(scrolled*.75))+'px';
-	}
+	var parallaxScroll = parallaxBgs.forEach.bind(parallaxBgs, function(node, index) {
+		node.style.top = (0 - (window.pageYOffset * (index + 1) / (parallaxBgs.length + 1))) + 'px';
+	});
 	
 	/* Scroll event handler */
     window.onscroll = function(e){
@@ -73,19 +75,37 @@ function main() {
 		redrawDotNav();
     };
 	
-	var url = location.protocol + "//" + location.host + location.pathname;
+	var url = location.protocol + "//" + location.host + location.pathname,
+		scrollTimer,
+		time = 500,
+		step = 25,
+		doAnimateScroll = function(cur, start, alpha) {
+			clearTimeout(scrollTimer);
+			
+			cur += step;
+			
+			if(cur < time)
+				scrollTimer = setTimeout(doAnimateScroll.bind(null, cur, start, alpha), step);
+						
+			window.scrollTo(window.pageXOffset, start + alpha * lineanBezier.get(cur / time).y);
+			parallaxScroll(); // Callback is required for iOS
+			redrawDotNav();
+		};
 	
+	/* Click menu event handler */
 	$$0("#primary").addEventListener("click", delegate("a", function(e) {
-		window.scrollTo(0, $$0(e.target.getAttribute("href").replace(url, "")).offsetTop);
-    	parallaxScroll(); // Callback is required for iOS
-		redrawDotNav();
+		doAnimateScroll(
+			0,
+			window.pageYOffset,
+			$$0(e.target.getAttribute("href").replace(url, "")).offsetTop - window.pageYOffset
+		);
+		
+		e.preventDefault();
     	return false;
 	}));
 }
 
 document.addEventListener('DOMContentLoaded', main);
-
-
 
 
 
