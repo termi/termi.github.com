@@ -32,9 +32,8 @@ return{x:c(d,g.b.x,g.c.x),y:c(d,g.b.y,g.c.y)}};return new b(q,w,e,r)}(1,1,1,1);
 var $$ = Function.prototype.bind.call(document.querySelectorAll, document);
 var $$0 = Function.prototype.bind.call(document.querySelector, document);
 
-//https://gist.github.com/2369790
-function delegate(a,b,c,d){return function(e){d=e.target;do if(d.matchesSelector(a)){try{e.target=d}catch(r){};if(e.target!=d){
-try{delete e.target}catch(r){};e.target=d};c=b.call(this,e)}while(c!==false&&d!=this&&(d=d.parentNode));return c}};
+//https://gist.github.com/2569872
+function delegate(e,f){return function(c,b,a){for(a=c.target;a&&!1!==b&&a!=this;a=a.parentElement)a.matchesSelector(e)&&(b=f.call(a,c));return b}};
 
 function main() {
 	/* Set navigation dots to an active state as the user scrolls */
@@ -44,7 +43,7 @@ function main() {
 			top : index === 0 ? 0 :
 				index === sectionNodes.length -1 ? node.offsetTop - ((document.documentElement.scrollHeight - node.offsetTop) / 2) :
 				node.offsetTop - (sectionNodes[index + 1].offsetTop - node.offsetTop) / 2,
-			navLink : node.id ? $$0("a[href='#" + node.id + "']") : null,
+			navLink : node.id ? $$0("#primary a[href='#" + node.id + "']") : null,
 			node : node/*,
 			refId : "#" + node.id*/
 		} });
@@ -60,13 +59,12 @@ function main() {
 		}
 	}
 	
-	redrawDotNav();
-	
 	var parallaxBgs = Array.from($$(".parallax-bg")).reverse();
 
 	/* Scroll the background layers */
 	var parallaxScroll = parallaxBgs.forEach.bind(parallaxBgs, function(node, index) {
 		node.style.top = (0 - (window.pageYOffset * (index + 1) / (parallaxBgs.length + 1))) + 'px';
+		//node.style.marginLeft = +node.style.left +lineanBezier.get((0 - (window.pageYOffset * (index + 1) / (parallaxBgs.length + 1))) + 'px';
 	});
 	
 	/* Scroll event handler */
@@ -93,16 +91,29 @@ function main() {
 		};
 	
 	/* Click menu event handler */
-	$$0("#primary").addEventListener("click", delegate("a", function(e) {
-		doAnimateScroll(
-			0,
-			window.pageYOffset,
-			$$0(e.target.getAttribute("href").replace(url, "")).offsetTop - window.pageYOffset
-		);
-		
-		e.preventDefault();
-    	return false;
+	document.addEventListener("click", delegate("a", function(e) {
+		var href = this.getAttribute("href").replace(url, ""),
+			referedSection = href.startsWith("#") ?
+				$$0(href) :
+				null;
+	
+		if(referedSection) {
+			doAnimateScroll(
+				0,
+				window.pageYOffset,
+				referedSection.offsetTop - window.pageYOffset
+			);
+			
+			e.preventDefault();
+			return false;
+		}
 	}));
+
+	document.addEventListener('mousewheel', function() {
+		scrollTimer && clearTimeout(scrollTimer), scrollTimer=null;
+	});
+
+	window.onscroll();//First init
 }
 
 document.addEventListener('DOMContentLoaded', main);

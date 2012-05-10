@@ -114,7 +114,7 @@ function main() {
 	j = document.querySelector(".test");
 	j.addEventListener("someEvent", console.log.bind(null, "j someEvent capture"), true);
 	
-	$("test2").addEventListener("someEvent", console.log.bind(null, "test2 someEvent capture"), true);
+	$("#test2").addEventListener("someEvent", console.log.bind(null, "test2 someEvent capture"), true);
 	
 	var att = 0;
 	
@@ -128,5 +128,5 @@ function main() {
 	}
 }
 
-window.addEventListener('DOMContentLoaded', main);
+document.addEventListener('DOMContentLoaded', main);
 </script>
