@@ -881,14 +881,11 @@ function _getter_KeyboardEvent_location() {
 
 	return this["__location"] = value;
 }
-if(!("location" in _KeyboardEvent_prototype)) {
-	_getter_KeyboardEvent_location = 
-	_Object_defineProperty(_KeyboardEvent_prototype, "location", {
-		"enumerable" : true,
-		"configurable" : true,
-		"get" : _getter_KeyboardEvent_location
-	});
-}
+_Object_defineProperty(_KeyboardEvent_prototype, "location", {
+	"enumerable" : true,
+	"configurable" : true,
+	"get" : _getter_KeyboardEvent_location
+});
 
 
 function _keyUp_via_keyPress_Handler(e) {
