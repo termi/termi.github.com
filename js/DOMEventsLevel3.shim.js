@@ -653,7 +653,17 @@ var _Event_prototype = global["Event"].prototype
   , _hasOwnProperty = _unSafeBind.call(Function.prototype.call, Object.prototype.hasOwnProperty)
 
   , _try_initKeyboardEvent = true
+
+  , _initKeyboardEvent_type
 ;
+
+[{"location" : 3}, {"keyLocation" : 3}]
+try {
+	_initKeyboardEvent_type = document.createEvent("KeyboardEvent");
+}
+catch(e) {
+
+}
 
 /**
  * http://html5labs.com/dom4events/#constructors-keyboardevent
@@ -720,7 +730,8 @@ function _KeyboardEvent(type, dict) {// KeyboardEvent  constructor
 		/*
 		http://stackoverflow.com/a/8490774/1437207
 		For Webkit-based browsers (Safari/Chrome), the event initialization call should look a bit differently (see https://bugs.webkit.org/show_bug.cgi?id=13368):
-		initKeyboardEvent(in DOMString typeArg, 
+		initKeyboardEvent(
+			  in DOMString typeArg, 
               in boolean canBubbleArg, 
               in boolean cancelableArg, 
               in views::AbstractView viewArg, 
@@ -731,6 +742,20 @@ function _KeyboardEvent(type, dict) {// KeyboardEvent  constructor
               in boolean altKeyArg, 
               in boolean metaKeyArg, 
               in boolean altGraphKeyArg);
+		*/
+		/*
+		http://code.google.com/p/chromium/issues/detail?id=52408
+		event.initKeyboardEvent( 
+			   "keypress",        //  in DOMString typeArg,                                                           
+               true,             //  in boolean canBubbleArg,                                                        
+               true,             //  in boolean cancelableArg,                                                       
+               null,             //  in nsIDOMAbstractView viewArg,  Specifies UIEvent.view. This value may be null.     
+               false,            //  in boolean ctrlKeyArg,                                                               
+               false,            //  in boolean altKeyArg,                                                        
+               false,            //  in boolean shiftKeyArg,                                                      
+               false,            //  in boolean metaKeyArg,                                                       
+                13,              //  in unsigned long keyCodeArg,                                                      
+                0);              //  in unsigned long charCodeArg); 
 		*/
 		if(_try_initKeyboardEvent) {
 			try {
@@ -862,6 +887,7 @@ if(!("location" in _KeyboardEvent_prototype)) {
 		"enumerable" : true,
 		"configurable" : true,
 		"get" : _getter_KeyboardEvent_location
+	});
 }
 
 
