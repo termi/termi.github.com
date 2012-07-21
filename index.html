@@ -1,59 +1,145 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]><html id="no-js" lang="ru" class="ie6 lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html id="no-js" lang="ru" class="ie7 lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html id="no-js" lang="ru" class="ie8 lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html id="no-js" lang="ru"><!--<![endif]-->
+<head>
+	<script>document.getElementById("no-js").id=""</script>
 
-<link rel="stylesheet" href="/css/a.css" />
+	<meta charset="utf-8" />
+	<title>Termi home page</title>
 
-<style>
-body {
-	background: black;
-	color: gray;
-	font-family: Courier;
-}
-h1 {
-	font-size: 1.5em;
-}
-h2 {
-	font-size: 1.2em;
-}
-h3, h4, h5 {
-	font-size: 1.1em;
-}
-#main {
-	width: 400px;
-	border: 1px solid gray;
-	padding: 2em;
-}
-#main > footer{
-	margin-top: 1em;
-}
-</style>
+	<!-- Use the .htaccess and remove these lines to avoid edge case issues.
+		More info: h5bp.com/i/378 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	
+	<meta name="description" content="termi home page" />
+	<meta name="keywords" content="termi, home page" />
+	
+	<!--  Mobile viewport optimized: j.mp/bplateviewport -->
+	<meta name="viewport" content="width=device-width" />
 
-<section id="main" itemscope="" itemtype="http://schema.org/Person">
-	<header>
-		<h1 itemprop="name givenName">Егор</h1>
-		<img itemprop="image" width="80px" height="80px" src="http://ru.gravatar.com/userimage/29365255/dcda7d428b74d16ed28c83b0cc7fc332.jpg" />
-		<h2 itemprop="jobTitle">JS developer</h2>
+	<!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+	<!--link rel="shortcut icon" href="f.ico" /-->
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+	
+	<link rel="stylesheet" href="/css/a.css?cache_year" />
+	<link rel="stylesheet" href="/css/bootstrap.custom.termi.css" />
+	<link rel="stylesheet" href="/css/main.css" />
+	
+	<meta name="-x-application:urn" content="h123.ru" />
+	
+	<!--[if lt IE 8]>
+	<script src="/js/a.ielt8.js"></script>
+	<![endif]-->
+	<!--[if IE 8]>
+	<script src="/js/a.ie8.js"></script>
+	<![endif]-->
+	<script src="/js/a.js"></script>
+
+	<style>
+
+	</style>
+
+</head>
+<body>
+
+<div id="container" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/index">
+
+<header></header>
+
+<div id="main" class="data tabbable">
+	<header class="navbar-left">
+		<section class="navbar-left__info">
+			<h1 class="navbar-left__info__name"><a class="brand" href="#">Егор</a></h1>
+			<img class="navbar-left__info__logo" width="80px" height="80px" src="http://gravatar.com/avatar/78ba5b1e9091d87666a135b3d63d3734.png" />
+			<h2 class="navbar-left__info__desc">JS developer</h2>
+		</section>
+
+		<nav class="navbar-left-inner tabs-left">
+			<header></header>
+
+			<ul class="data container nav nav-tabs" itemscope="" itemtype="h123.ru/WAMenu" itemprop="_component" data-dispatch-event="pagechange">
+				<li class="active" itemprop="_menuItemName"><a href="h123.ru/contacts" title="contacts" itemprop="_menuItemUrl">Contacts</a></li>
+				<li itemprop="_menuItemName"><a href="h123.ru/projects" title="projects" itemprop="_menuItemUrl">Projects</a></li>
+				<li itemprop="_menuItemName"><a href="h123.ru/blog" title="blog" itemprop="_menuItemUrl">Blog</a></li>
+			</ul>		
+
+			<footer></footer>
+		</nav> 
 	</header>
-	<article class="data">
-		<div itemscope="" itemprop="address">
-			<header itemprop="name"><u class="title">Main location</u></header>
-			<div class="data">
-				<span itemprop="addressCountry">Russia, </span>
-				<span itemprop="addressRegion">Moscow</span>
+	
+	<div class="data tab-content">
+		<section class="active" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/contacts">
+			<header></header>
+
+			<div class="data" itemscope="" itemtype="http://schema.org/Person">
+				<header>
+					<h1 itemprop="name givenName">Егор</h1>
+					<img itemprop="image" width="80px" height="80px" src="http://gravatar.com/avatar/78ba5b1e9091d87666a135b3d63d3734.png" />
+					<h2 itemprop="jobTitle">JS developer</h2>
+				</header>
+				<article class="data">
+					<div itemscope="" itemprop="address">
+						<header itemprop="name"><u class="title">Main location</u></header>
+						<div class="data">
+							<span itemprop="addressCountry">Russia, </span>
+							<span itemprop="addressRegion">Moscow</span>
+						</div>
+						<footer>
+							<a href="http://maps.google.com/maps?q=Russia,+Moscow&hl=ru&ie=UTF8&sll=55.738709,37.648773&sspn=0.32471,1.052628&hnear=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0,+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F&t=m&z=10" itemprop="url">View on Google Maps</a>
+						</footer>
+					</div>
+					<br />
+					<a href="tel:+79261115502" itemprop="telephone">+7(926)111-55-02</a>
+					<br />
+					<a href="mailto:1+h123@h123.ru?subject=[From home page]Hi Egor!" itemprop="email">1+h123@h123.ru</a>
+					<br />
+					<a href="skype:termi_uc" itemprop="email">skype:termi_uc</a>
+				</article>
+				<footer>
+					<a href="https://github.com/termi/">github</a><br />
+					<a href="https://twitter.com/termi_uc">twitter</a><br />
+					<a href="http://habrahabr.ru/users/termi/">habrahabr</a><br />
+				</footer>
 			</div>
-			<footer>
-				<a href="http://maps.google.com/maps?q=Russia,+Moscow&hl=ru&ie=UTF8&sll=55.738709,37.648773&sspn=0.32471,1.052628&hnear=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0,+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F&t=m&z=10" itemprop="url">View on Google Maps</a>
-			</footer>
-		</div>
-		<br />
-		<a href="tel:+79261115502" itemprop="telephone">+7(926)111-55-02</a>
-		<br />
-		<a href="mailto:1+h123@h123.ru?subject=[From home page]Hi Egor!" itemprop="email">1+h123@h123.ru</a>
-		<br />
-		<a href="skype:termi_uc" itemprop="email">skype:termi_uc</a>
-	</article>
-	<footer>
-		<a href="https://github.com/termi/">github</a><br />
-		<a href="https://twitter.com/termi_uc">twitter</a><br />
-		<a href="http://habrahabr.ru/users/termi/">habrahabr</a><br />
-	</footer>
-</section>
+
+			<footer></footer>
+		</section>
+		<section>
+		</section>
+		<section>
+		</section>
+	</div>
+
+	<footer>test</footer>
+</div>
+
+<footer></footer>
+
+</div>
+
+<script>if(typeof JSON=="undefined")document.write("<script src='http://bestiejs.github.com/json3/lib/json3.min.js'><\/script>")</script>
+<!--[if lt IE 8]>
+<script src="/js/microdata-js.ielt8.js"></script>
+<script src="/js/Element.details.ielt8.js"></script>
+<script src="/js/history.ielt8.js"></script>
+<![endif]-->
+<!--[if IE 8]>
+<script src="/js/Element.details.ie8.js"></script>
+<![endif]-->
+<!--[if gt IE 8]><!-->
+<script>"open"in document.createElement("details")||document.write("<script src='/js/Element.details.js'><\/script>")</script>
+<script src="/js/history.js"></script>
+<!--<![endif]-->
+<script src="/js/microdata-js.js"></script>
+
+	
+<script>
+
+
+//TODO:: init page
+</script>
+
+</body>
+</html>
