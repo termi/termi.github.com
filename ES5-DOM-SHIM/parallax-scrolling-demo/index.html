@@ -1,126 +1,24 @@
 ﻿<!DOCTYPE html>
 
-<html debug=true>
+<html debug=false>
 	
 	<head>
 <script type='text/javascript' src='/js/libs/firebug/firebug.js'></script>
 		<title>The history of aeronautics</title>
 
 		<meta charset="utf-8" />
-		<meta name="description" content="A parallax scrolling experiment using jQuery" />
+		<meta name="description" content="A parallax scrolling experiment using pure-js" />
 
 		<link rel="stylesheet" media="all" href="css/main.css" />
 
-		<script src="/js/libs/modernizr.custom.js"></script> 
 <!--https://github.com/termi/ES5-DOM-SHIM-->
-<!--[if lt IE 9]>
-<script src="/js/a.ie8.js"></script>
-<![endif]-->
 <!--[if lt IE 8]>
 <script src="/js/a.ielt8.js"></script>
 <![endif]-->
+<!--[if IE 8]>
+<script src="/js/a.ie8.js"></script>
+<![endif]-->
 <script src="/js/a.js"></script>
-
-
-<script>
-//cubic-bezier timing function
-var lineanBezier=function(q,w,e,r){function b(d,g,i,h){this.b={x:d,y:g};this.c={x:i,y:h}}function c(d,g,i){var h=3*g,g=3*(i-g)-h;
-return(((1-h-g)*d+g)*d+h)*d}b.prototype.get=function(d){var g=this;if(0==d||1==d)return{x:d,y:d};if(!(0<d)||!(1>d))throw new RangeError;
-return{x:c(d,g.b.x,g.c.x),y:c(d,g.b.y,g.c.y)}};return new b(q,w,e,r)}(1,1,1,1);
-
-//aliases
-var $$ = Function.prototype.bind.call(document.querySelectorAll, document);
-var $$0 = Function.prototype.bind.call(document.querySelector, document);
-
-//https://gist.github.com/2569872
-function delegate(e,f){return function(c,b,a){for(a=c.target;a&&!1!==b&&a!=this;a=a.parentElement)a.matchesSelector(e)&&(b=f.call(a,c));return b}};
-
-function main() {
-	/* Set navigation dots to an active state as the user scrolls */
-	var sectionNodes = $$(".section"),
-		sections = sectionNodes.map(function(node, index) { return {//NodeList now inherit from Array so we can use Array methods
-			// The top of each section is offset by half the distance to the previous section.
-			top : index === 0 ? 0 :
-				index === sectionNodes.length -1 ? node.offsetTop - ((document.documentElement.scrollHeight - node.offsetTop) / 2) :
-				node.offsetTop - (sectionNodes[index + 1].offsetTop - node.offsetTop) / 2,
-			navLink : node.id ? $$0("#primary a[href='#" + node.id + "']") : null,
-			node : node/*,
-			refId : "#" + node.id*/
-		} });
-		
-	function redrawDotNav() {
-		var i = -1,
-			sect;
-			
-		while(sect = sections[++i]) {
-			if(window.pageYOffset >= sect.top && (i == sections.length - 1 || window.pageYOffset < sections[i + 1].top))
-				sect.navLink.classList.add('active');
-			else sect.navLink.classList.remove('active');
-		}
-	}
-	
-	var parallaxBgs = Array.from($$(".parallax-bg")).reverse();
-
-	/* Scroll the background layers */
-	var parallaxScroll = parallaxBgs.forEach.bind(parallaxBgs, function(node, index) {
-		node.style.top = (0 - (window.pageYOffset * (index + 1) / (parallaxBgs.length + 1))) + 'px';
-		//node.style.marginLeft = +node.style.left +lineanBezier.get((0 - (window.pageYOffset * (index + 1) / (parallaxBgs.length + 1))) + 'px';
-	});
-	
-	/* Scroll event handler */
-    window.onscroll = function(e){
-    	parallaxScroll();
-		redrawDotNav();
-    };
-	
-	var url = location.protocol + "//" + location.host + location.pathname,
-		scrollTimer,
-		time = 500,
-		step = 25,
-		doAnimateScroll = function(cur, start, alpha) {
-			clearTimeout(scrollTimer);
-			
-			cur += step;
-			
-			if(cur < time)
-				scrollTimer = setTimeout(doAnimateScroll.bind(null, cur, start, alpha), step);
-						
-			window.scrollTo(window.pageXOffset, start + alpha * lineanBezier.get(cur / time).y);
-			parallaxScroll(); // Callback is required for iOS
-			redrawDotNav();
-		};
-	
-	/* Click menu event handler */
-	document.addEventListener("click", delegate("a", function(e) {
-		var href = this.getAttribute("href").replace(url, ""),
-			referedSection = href.startsWith("#") ?
-				$$0(href) :
-				null;
-	
-		if(referedSection) {
-			doAnimateScroll(
-				0,
-				window.pageYOffset,
-				referedSection.offsetTop - window.pageYOffset
-			);
-			
-			e.preventDefault();
-			return false;
-		}
-	}));
-
-	document.addEventListener('mousewheel', function() {
-		scrollTimer && clearTimeout(scrollTimer), scrollTimer=null;
-	});
-
-	window.onscroll();//First init
-}
-
-document.addEventListener('DOMContentLoaded', main);
-
-
-
-</script>
 		
 	</head>
 
@@ -193,7 +91,7 @@ document.addEventListener('DOMContentLoaded', main);
 					<header>
 						<h1>About</h1>
 					</header>
-					<p>This is a jQuery parallax scrolling experiment by Jonathan Nicol. <a href="http://f6design.com/journal/2011/08/06/build-a-parallel-scrolling-website-interface-with-jquery-and-css/">Read about it</a> on my blog.</p>
+					<p>This is a pure-js parallax scrolling based on experiment by Jonathan Nicol. <a href="http://f6design.com/journal/2011/08/06/build-a-parallel-scrolling-website-interface-with-jquery-and-css/">Read about it</a> on my blog.</p>
 					<nav class="next-prev">
 						<a class="prev english-channel" href="#english-channel">Prev</a>
 						<hr />
@@ -227,7 +125,183 @@ document.addEventListener('DOMContentLoaded', main);
 			</div>
 		
 		</div>
+
+<script>if(typeof JSON=="undefined")document.write("<script src='/js/libs/json3.min.js'><\/script>")</script>
+
+<script id="history_uuid_8vhax7l" src="/js/history.js"></script>
+
+
+
+
+
+<script>
+//cubic-bezier timing function
+var lineanBezier=function(q,w,e,r){function b(d,g,i,h){this.b={x:d,y:g};this.c={x:i,y:h}}function c(d,g,i){var h=3*g,g=3*(i-g)-h;
+return(((1-h-g)*d+g)*d+h)*d}b.prototype.get=function(d){var g=this;if(0==d||1==d)return{x:d,y:d};if(!(0<d)||!(1>d))throw new RangeError;
+return{x:c(d,g.b.x,g.c.x),y:c(d,g.b.y,g.c.y)}};return new b(q,w,e,r)}(1,1,1,1);
+
+/*
+TODO::
+/
+ * Cubic Bezier CSS3 transitions emulator
+ *
+ * See this post for more details
+ * http://st-on-it.blogspot.com/2011/05/calculating-cubic-bezier-function.html
+ *
+ * Copyright (C) 2011 Nikolay Nemshilov
+/
+function Bezier(p1,p2,p3,p4) {
+  // defining the bezier functions in the polynomial form
+  var Cx = 3 * p1;
+  var Bx = 3 * (p3 - p1) - Cx;
+  var Ax = 1 - Cx - Bx;
+
+  var Cy = 3 * p2;
+  var By = 3 * (p4 - p2) - Cy;
+  var Ay = 1 - Cy - By;
+
+  function bezier_x(t) { return t * (Cx + t * (Bx + t * Ax)); }
+  function bezier_y(t) { return t * (Cy + t * (By + t * Ay)); }
+
+
+  // using Newton's method to aproximate the parametric value of x for t
+  function bezier_x_der(t) { return Cx + t * (2*Bx + 3*Ax * t); }
+
+  function find_x_for(t) {
+    var x=t, i=0, z;
+
+    while (i < 5) { // making 5 iterations max
+      z = bezier_x(x) - t;
+
+      if (Math.abs(z) < 1e-3) break; // if already got close enough
+
+      x = x - z/bezier_x_der(x);
+      i++;
+    }
+
+    return x;
+  };
+
+  return function(t) {
+    return bezier_y(find_x_for(t));
+  }
+}
+
+
+function print_bezier(p1,p2,p3,p4) {
+  console.log("\nBezier: ("+p1+","+p2+","+p3+","+p4+")");
+
+  var time   = new Date();
+  var bezier = new Bezier(p1,p2,p3,p4);
+
+  console.log('-------+--------');
+  console.log(' I     | O      ');
+  console.log('-------+--------');
+
+  for (var i=0; i < 1.001; i += 0.1) {
+    console.log(i.toFixed(4) + " | "+ bezier(i).toFixed(4))
+  }
+
+  console.log('-------+--------');
+  console.log("Done in: "+ (new Date() - time) + "ms")
+}
+
+print_bezier(0,0,1,1);
+print_bezier(.25,0.1,.25,1);
+*/
+
+//aliases
+var $$ = Function.prototype.bind.call(document.querySelectorAll, document);
+var $$0 = Function.prototype.bind.call(document.querySelector, document);
+
+//https://gist.github.com/2569872
+function delegate(e,f){return function(c,b,a){for(a=c.target;a&&!1!==b&&a!=this;a=a.parentElement)a.matchesSelector(e)&&(b=f.call(a,c));return b}};
+
+function main() {
+	/* Set navigation dots to an active state as the user scrolls */
+	var sectionNodes = $$(".section"),
+		sections = sectionNodes.map(function(node, index) { return {//NodeList now inherit from Array so we can use Array methods
+			// The top of each section is offset by half the distance to the previous section.
+			top : index === 0 ? 0 :
+				index === sectionNodes.length -1 ? node.offsetTop - ((document.documentElement.scrollHeight - node.offsetTop) / 2) :
+				node.offsetTop - (sectionNodes[index + 1].offsetTop - node.offsetTop) / 2,
+			navLink : node.id ? $$0("#primary a[href='#" + node.id + "']") : null,
+			node : node/*,
+			refId : "#" + node.id*/
+		} });
+		
+	function redrawDotNav() {
+		var i = -1,
+			sect;
+			
+		while(sect = sections[++i]) {
+			if(window.pageYOffset >= sect.top && (i == sections.length - 1 || window.pageYOffset < sections[i + 1].top))
+				sect.navLink.classList.add('active');
+			else sect.navLink.classList.remove('active');
+		}
+	}
 	
+	var parallaxBgs = Array.from($$(".parallax-bg")).reverse();
+
+	/* Scroll the background layers */
+	var parallaxScroll = parallaxBgs.forEach.bind(parallaxBgs, function(node, index) {
+		node.style.top = (0 - (window.pageYOffset * (index + 1) / (parallaxBgs.length + 1))) + 'px';
+		//node.style.marginLeft = +node.style.left +lineanBezier.get((0 - (window.pageYOffset * (index + 1) / (parallaxBgs.length + 1))) + 'px';
+	});
+	
+	/* Scroll event handler */
+    window.onscroll = function(e){
+    	parallaxScroll();
+		redrawDotNav();
+    };
+	
+	var scrollTimer,
+		time = 500,
+		step = 25,
+		doAnimateScroll = function(cur, start, alpha) {
+			clearTimeout(scrollTimer);
+			
+			cur += step;
+			
+			if(cur < time)
+				scrollTimer = setTimeout(doAnimateScroll.bind(null, cur, start, alpha), step);
+						
+			window.scrollTo(window.pageXOffset, start + alpha * lineanBezier.get(cur / time).y);
+			parallaxScroll(); // Callback is required for iOS
+			redrawDotNav();
+		};
+	
+	/* Click menu event handler */
+	document.addEventListener("click", delegate("a", function(e) {
+		var href = this.getAttribute("href", 2),//"2" - for IE
+			referedSection = href.startsWith("#") ?
+				$$0(href) :
+				null;
+	
+		if(referedSection) {
+			doAnimateScroll(
+				0,
+				window.pageYOffset,
+				referedSection.offsetTop - window.pageYOffset
+			);
+			
+			e.preventDefault();
+			return false;
+		}
+	}));
+
+	document.addEventListener('mousewheel', function() {
+		scrollTimer && clearTimeout(scrollTimer), scrollTimer=null;
+	});
+
+	window.onscroll();//First init
+}
+
+document.addEventListener('DOMContentLoaded', main);
+
+
+
+</script>	
 	</body>
   
 </html>

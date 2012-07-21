@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html id="no-js" lang="ru" class="ie6 lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html id="no-js" lang="ru" class="ie7 lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html id="no-js" lang="ru" class="ie8 lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html id="no-js" lang="ru"><!--<![endif]-->
+<head>
+	<script>document.getElementById("no-js").id=""</script>
+
+	<meta charset="utf-8" />
+	<title>Keyboard Events and Codes</title>
+
+	<!-- Use the .htaccess and remove these lines to avoid edge case issues.
+		More info: h5bp.com/i/378 -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	
+	<meta name="description" content="termi home page" />
+	<meta name="keywords" content="termi, home page" />
+	
+	<!--  Mobile viewport optimized: j.mp/bplateviewport -->
+	<meta name="viewport" content="width=device-width" />
+
+	<!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
+	<!--link rel="shortcut icon" href="f.ico" /-->
+	<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+	
+	<link rel="stylesheet" href="/css/a.css?cache_year" />
+	
+	<meta name="-x-application:urn" content="h123.ru" />
+	
+	<!--https://github.com/termi/ES5-DOM-SHIM-->
+	<!--[if lt IE 8]>
+	<script src="/js/a.ielt8.js"></script>
+	<![endif]-->
+	<!--[if IE 8]>
+	<script src="/js/a.ie8.js"></script>
+	<![endif]-->
+	<script src="../../../js/a.js"></script>
+
+	<!--https://github.com/termi/Microdata-JS-->
+	<script src="/js/microdata-js.js"></script>
+	<!--[if lt IE 8]>
+	<script src="/js/microdata-js.ielt8.js"></script>
+	<![endif]-->
+
+	<!--https://github.com/termi/DOM-Keyboard-Event-Level-3-polyfill-->
+	<script>try{new KeyboardEvent("keyup")}catch(e){if(!/\??noshim\&?/.test(location.search))document.write("<script src='/js/DOMEventsLevel3.shim.js'><\/script>")}</script>
+</head>
+<body>
+
+<div id="wrapper">
+	
+	<header>
+		<h1>Key and Character Codes vs. Event Types</h1>
+		<hr />
+		<a href="?noshim">Open without js polyfill</a>
+	</header>
+	
+	<div id="content">
+		<p>Enter some text with uppercase and lowercase letters:</p><br />
+		<form>
+			<input size="60" />
+
+		</form>
+		<table style="float:left;margin-right:20px" border="2" cellpadding="5" cellspacing="5" itemtype="keysDisplay" itemscope="">
+			<caption>Keyboard Event Properties</caption>
+			<tr>
+				<th>Data</th>
+				<th>keydown</th>
+				<th>keypress</th>
+				<th>keyup</th>
+			</tr>
+			<tr itemprop="{template}" data-itemprop="{name}" itemscope="" itemtype="microdata_template">
+				<td itemprop="{name}">{name}</td>
+			    <td itemprop="{event_type}{name}">&mdash;</td>
+			</tr>
+			<style scoped="">
+			label {display:block}
+			</style>
+			<tr>
+				<td rowspan="3">
+					<p>Options</p>
+				</td>
+				<td colspan="3">
+					<label itemprop="option.preventDefault"><input type="checkbox" />prevent default</label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label itemprop="option.console.log"><input type="checkbox" />console output</label>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<label itemprop="option.output" itemscope="">
+						<div style="float:left;width:35%">
+							<input type="checkbox" checked="checked" />
+							output
+						</div>
+						<div style="float:left;width:65%">
+							<label itemprop="keydown" onclick="this.control.checked=!this.control.checked;return false">
+								<input type="checkbox" checked="checked" />
+								keydown
+							</label>
+							<label itemprop="keypress" onclick="this.control.checked=!this.control.checked;return false">
+								<input type="checkbox" checked="checked" />
+								keypress
+							</label>
+							<label itemprop="keyup" onclick="this.control.checked=!this.control.checked;return false">
+								<input type="checkbox" checked="checked" />
+								keyup
+							</label>
+						</div>
+					</label>
+				</td>
+			</tr>
+		</table>
+		<table>
+			<caption>Output</caption>
+			<tr>
+				<td id="output" style="width:450px;min-height:1.3em;background:gray"></td>
+			</tr>
+		</table>
+	</div>
+
+</div>
+
+<script>
+;(function(global) {
+
+var application = {
+	//Event's handler
+	handleEvent : function(event) {
+		var eventType = "$" + event.type,
+			handler = this[eventType],
+			result = true;
+
+		if(handler) {
+			result = handler.call(this, event);
+			if(result === false) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}
+		return result;
+	},
+
+	keyboardEvent_properties : [
+  		"char",
+  		"key",
+  		"keyCode",
+  		"charCode",
+  		"which",
+  		"location",
+  		"ctrlKey",
+  		"shiftKey",
+  		"altKey",
+  		"metaKey" ,
+  		"repeat",
+  		"locale",
+
+  		"detail"
+    ],
+
+	createDisplayTable: function(template) {
+		function templateReplacer(string) {
+			var k = 0
+			  , key
+			;
+
+			string = string || "";
+
+			if(string)Object.keys(templateProps).forEach(function(prop_name){
+				string = string.replace(prop_name, this[prop_name]);
+			}, templateProps);
+
+			return string;
+		}
+
+		var rowTemplate = template.properties["{template}"][0]
+		  , eventTypes = ["keydown", "keypress", "keyup"]
+		  , templateProps = {
+				"{name}" : void 0,
+				"{event_type}" : void 0,
+				"{__i__}" : void 0
+			}
+		  , rowItemprop = rowTemplate.getAttribute("data-itemprop")
+		;
+
+		rowTemplate.after.apply(rowTemplate, this.keyboardEvent_properties.map(function(prop_name) {
+			var newRow = rowTemplate.cloneNode(true)
+			  , itempropObj
+			;
+
+			templateProps["{name}"] = prop_name;
+			templateProps["{__i__}"] = prop_name;
+
+			newRow.setAttribute("itemprop", templateReplacer(rowItemprop));
+//debugger
+			itempropObj = newRow.properties["{name}"][0];
+			itempropObj.setAttribute("itemprop", templateReplacer(itempropObj.getAttribute("itemprop")));
+			itempropObj.itemValue = templateReplacer(itempropObj.itemValue);
+
+			itempropObj = newRow.properties["{event_type}{name}"][0];
+			itempropObj.after.apply(itempropObj, eventTypes.map(function(etype) {
+				var new_templateProps = this.cloneNode(true);
+
+				templateProps["{event_type}"] = etype;
+
+				new_templateProps.setAttribute("itemprop", templateReplacer(new_templateProps.getAttribute("itemprop")));
+				new_templateProps.itemValue = templateReplacer(new_templateProps.itemValue);
+
+				return new_templateProps;
+			}, itempropObj))
+			
+			itempropObj.remove();
+
+			return newRow;
+		}));
+
+		rowTemplate.remove();
+
+		return template
+	},
+
+	$DOMContentLoaded: function(e) {
+		Object.keys(this).forEach(function(prop_name) {
+			if(prop_name.charAt(0) == "$") {
+				document.addEventListener(prop_name.substr(1), this);
+			}
+		}, this);
+
+		this.displayTable = this.createDisplayTable(document.getItems("keysDisplay")[0]);
+	}	
+}
+application["$keydown"] = application["$keypress"] = application["$keyup"] = function(e) {
+	var _displayTable_properties = this.displayTable.properties
+	  , prop
+	  , _colors = this.colors || (this.colors = {})
+	;
+
+	this.keyboardEvent_properties.forEach(function(prop_name) {
+		prop = _displayTable_properties[prop_name][0];
+
+		prop = prop.properties[e.type + prop_name][0];
+
+		prop.itemValue = e[prop_name];
+		prop.style.backgroundColor = _colors[e.type + e.keyCode] || (_colors[e.type + e.keyCode] = "rgb(" + ~~(e.keyCode / Math.random()) + "," + ~~(e.keyCode / Math.random()) + "," + ~~(e.keyCode / Math.random()) + ")");
+	});
+
+	if(_displayTable_properties["option.preventDefault"][0].control.checked)e.preventDefault();
+	if(_displayTable_properties["option.console.log"][0].control.checked)console.log(e.type, e);
+	if(_displayTable_properties["option.output"][0].control.checked) {
+		var tmp;
+		if(!(tmp = _displayTable_properties["option.output"][0].properties[e.type]) || !tmp.length || !tmp[0].control.checked)return;
+
+		if(!this._output)this._output = document.getElementById("output");
+
+		this._output.insertAdjacentHTML("afterbegin", 
+			"<b>type:&nbsp;</b>" + e.type + "&nbsp;|&nbsp;" +
+	        "<b>char:&nbsp;</b>" + e.char + "&nbsp;|&nbsp;" +
+	        "<b>key:</b>&nbsp;" + e.key + "&nbsp;|&nbsp;" +
+	        "<b>keyCode:</b>&nbsp;" + e.keyCode + "&nbsp;|&nbsp;" +
+	        "<b>location:</b>&nbsp;" + e.location + "<br/>") ;
+	}
+}
+
+document.addEventListener('DOMContentLoaded', application);
+
+})(window);
+
+</script>
+
+<!--script>if(typeof JSON=="undefined")document.write("<script src='/js/libs/json3.min.js'><\/script>")</script-->
+</body>
+</html>

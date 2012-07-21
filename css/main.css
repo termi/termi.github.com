@@ -1,0 +1,14 @@
+#main > .navbar-left {
+	float: left;
+	width: 20%;
+}
+#main > .data {
+	float: left;
+	width: 80%;
+}
+#main > footer {
+	clear: both;
+}
+#main > .navbar-left .tabs-left > .nav-tabs {
+	float: none;
+}
