@@ -25,7 +25,7 @@
 /** @define {boolean} */
 var INCLUDE_EXTRAS = true;//Set it to 'true' if you need Extra behaviors
 /** @define {boolean} */
-var INCLUDE_DOMSTRINGCOLLECTION = true;
+var INCLUDE_DOMSTRINGCOLLECTION = false;
  
 ;(function(global, fixPrototypes) {
 
@@ -386,12 +386,16 @@ if(INCLUDE_EXTRAS) {
 
 				thisObj[thisObj["length"]++] = node;
 				
-				if(!~thisObj["names"].indexOf(name)) {
+				/*if(!~thisObj["names"].indexOf(name)) {
 					thisObj["names"].push(name);
-				};
+				};*/
 				
 
 				while(name = prop_name[++k]) {
+					if(!~thisObj["names"].indexOf(name)) {
+						thisObj["names"].push(name);
+					};
+					
 					(
 						thisObj[name] || (thisObj[name] = new PropertyNodeList())
 					)["_push"](node, prop_value);
