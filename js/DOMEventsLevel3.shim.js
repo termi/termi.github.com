@@ -628,7 +628,7 @@ var _Event_prototype = global["Event"].prototype
   		"repeat" : false,
   		"locale" : "",
 
-  		"detail" : null,
+  		"detail" : 0,
   		"bubbles" : false,
   		"cancelable" : false
     }
@@ -656,7 +656,7 @@ var _Event_prototype = global["Event"].prototype
 
   , _initKeyboardEvent_type
 ;
-
+/*
 [{"location" : 3}, {"keyLocation" : 3}]
 try {
 	_initKeyboardEvent_type = document.createEvent("KeyboardEvent");
@@ -664,7 +664,7 @@ try {
 catch(e) {
 
 }
-
+*/
 /**
  * http://html5labs.com/dom4events/#constructors-keyboardevent
  * @constructor
@@ -893,8 +893,10 @@ function _keyUp_via_keyPress_Handler(e) {
 	  , _ = thisObj["_"] || (thisObj["_"] = {})
 	;
 
-	_[_shim_event_keyUUID] = e["key"];
-	_[_shim_event_charUUID] = e["char"];
+	if(!_["_noneed"]) {
+		_[_shim_event_keyUUID] = e["key"];
+		_[_shim_event_charUUID] = e["char"];
+	}
 }
 function _first_keyUp(e) {
 	var thisObj = this
@@ -915,11 +917,13 @@ function _keyDownHandler(e) {
 	var _keyCode = e.which || e.keyCode
 	  , thisObj = this._this
 	  , listener
-	  , _
+	  , _ = thisObj["_"] || (thisObj["_"] = {})
 	  , special = e.ctrlKey || e.altKey
 	;
 
 	if(special || _keyCode in VK_COMMON && VK_COMMON[_keyCode]._key !== 0 || e["__key"]) {
+		_["_noneed"] = true;
+
 		listener = this._listener;
 
 		if(typeof listener !== "function") {
@@ -932,7 +936,7 @@ function _keyDownHandler(e) {
 		listener.apply(thisObj, arguments);
 	}
 	else {
-		_ = thisObj["_"] || (thisObj["_"] = {});
+		_["_noneed"] = false;
 		_[_shim_event_keyCodeUUID] = _keyCode;
 	}
 }

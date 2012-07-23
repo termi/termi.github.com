@@ -50,7 +50,7 @@
 <div id="wrapper">
 	
 	<header>
-		<h1>Key and Character Codes vs. Event Types</h1>
+		<h1>Keyboard Events and Codes</h1>
 		<hr />
 		<a href="?noshim">Open without js polyfill</a>
 	</header>
@@ -128,22 +128,6 @@
 ;(function(global) {
 
 var application = {
-	//Event's handler
-	handleEvent : function(event) {
-		var eventType = "$" + event.type,
-			handler = this[eventType],
-			result = true;
-
-		if(handler) {
-			result = handler.call(this, event);
-			if(result === false) {
-				event.preventDefault();
-				event.stopPropagation();
-			}
-		}
-		return result;
-	},
-
 	keyboardEvent_properties : [
   		"char",
   		"key",
@@ -195,7 +179,8 @@ var application = {
 			templateProps["{__i__}"] = prop_name;
 
 			newRow.setAttribute("itemprop", templateReplacer(rowItemprop));
-//debugger
+			
+			//debugger
 			itempropObj = newRow.properties["{name}"][0];
 			itempropObj.setAttribute("itemprop", templateReplacer(itempropObj.getAttribute("itemprop")));
 			itempropObj.itemValue = templateReplacer(itempropObj.itemValue);
@@ -222,31 +207,54 @@ var application = {
 		return template
 	},
 
+	//Event's handler
+	handleEvent : function(event) {
+		var eventType = "$" + event.type,
+			handler = this[eventType],
+			result = true;
+
+		if(handler) {
+			result = handler.call(this, event);
+			if(result === false) {
+				event.preventDefault();
+				event.stopPropagation();
+			}
+		}
+		return result;
+	},
+
 	$DOMContentLoaded: function(e) {
+		//initEventListeners
 		Object.keys(this).forEach(function(prop_name) {
 			if(prop_name.charAt(0) == "$") {
 				document.addEventListener(prop_name.substr(1), this);
 			}
 		}, this);
 
+		//create properties table from template
 		this.displayTable = this.createDisplayTable(document.getItems("keysDisplay")[0]);
 	}	
-}
+};
+
 application["$keydown"] = application["$keypress"] = application["$keyup"] = function(e) {
 	var _displayTable_properties = this.displayTable.properties
 	  , prop
 	  , _colors = this.colors || (this.colors = {})
 	;
 
+	//fill the values ​​in table
 	this.keyboardEvent_properties.forEach(function(prop_name) {
 		prop = _displayTable_properties[prop_name][0];
 
 		prop = prop.properties[e.type + prop_name][0];
 
 		prop.itemValue = e[prop_name];
-		prop.style.backgroundColor = _colors[e.type + e.keyCode] || (_colors[e.type + e.keyCode] = "rgb(" + ~~(e.keyCode / Math.random()) + "," + ~~(e.keyCode / Math.random()) + "," + ~~(e.keyCode / Math.random()) + ")");
+
+		//color the cell
+		prop.style.backgroundColor = _colors[e.type + e.keyCode] || (_colors[e.type + e.keyCode] = "rgb(" + ~~(150 * Math.random() + 100) + "," + ~~(150 * Math.random() + 100) + "," + ~~(150 * Math.random() + 100) + ")");
 	});
 
+	//service output
 	if(_displayTable_properties["option.preventDefault"][0].control.checked)e.preventDefault();
 	if(_displayTable_properties["option.console.log"][0].control.checked)console.log(e.type, e);
 	if(_displayTable_properties["option.output"][0].control.checked) {
@@ -262,9 +270,13 @@ application["$keydown"] = application["$keypress"] = application["$keyup"] = fun
 	        "<b>keyCode:</b>&nbsp;" + e.keyCode + "&nbsp;|&nbsp;" +
 	        "<b>location:</b>&nbsp;" + e.location + "<br/>") ;
 	}
+
+	if(global.microdata_liveProperties)global.microdata_liveProperties = false;
 }
 
 document.addEventListener('DOMContentLoaded', application);
+
+global.microdata_liveProperties = true;
 
 })(window);
 
