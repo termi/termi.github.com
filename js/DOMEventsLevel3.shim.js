@@ -596,8 +596,11 @@ VK_SPECIAL = {
 */
 
 var _Event_prototype = global["Event"].prototype
+
   , _KeyboardEvent_prototype = global["KeyboardEvent"] && global["KeyboardEvent"].prototype || _Event_prototype
+
   , _Object_defineProperty = Object.defineProperty
+
   , KEYBOARD_EVENTS = {
 		"keydown" : void 0,
 		"keyup" : void 0,
@@ -632,6 +635,9 @@ var _Event_prototype = global["Event"].prototype
   		"bubbles" : false,
   		"cancelable" : false
     }
+
+    /** @const */
+  , _Event_has_stopImmediatePropagation = "stopImmediatePropagation" in document.createEvent("Event")
 
     /** @const */
   , _Array_slice = Array.prototype.slice
@@ -946,7 +952,10 @@ function _keyDown_via_keyPress_Handler(e) {
 	  , thisObj = this
 	  , _ = thisObj["_"]
 	  , _event
+	  , need__stopImmediatePropagation__and__preventDefault
 	;
+
+	if(e["__stopNow"])return;
 
 	if(_ && _shim_event_keyCodeUUID in _) {
 		_keyCode = _[_shim_event_keyCodeUUID];
@@ -964,8 +973,23 @@ function _keyDown_via_keyPress_Handler(e) {
 		_Object_defineProperty(_event, "keyCode", {"value" : _keyCode});
 		_event["__location"] = _getter_KeyboardEvent_location.call(_event);
 
-		if(!thisObj.dispatchEvent(_event)) {
-			e.preventDefault();
+		need__stopImmediatePropagation__and__preventDefault = !thisObj.dispatchEvent(_event);
+	}
+	else {
+		_keyCode = e.keyCode;
+		//handle key that not generate character's key
+		need__stopImmediatePropagation__and__preventDefault = (_ = VK_COMMON[_keyCode]) && (typeof _ == "object" ? _._key || "" : _).length > 1;
+	}
+
+	if(need__stopImmediatePropagation__and__preventDefault) {
+		e.preventDefault();
+
+		if(_Event_has_stopImmediatePropagation) {
+			e.stopImmediatePropagation();
+		}
+		else {
+			e["__stopNow"] = true;
+			e.stopPropagation();
 		}
 	}
 }
