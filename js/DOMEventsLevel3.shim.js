@@ -1,5 +1,4 @@
- /** DOM Keyboard Event Level 3 polyfill
-  * @license MIT License (c) copyright Egor Halimonenko (termi1uc1@gmail.com) */
+ /** @license DOM Keyboard Event Level 3 polyfill | MIT License (c) copyright Egor Halimonenko (termi1uc1@gmail.com | github.com/termi) */
 
 // ==ClosureCompiler==
 // @compilation_level ADVANCED_OPTIMIZATIONS
@@ -672,12 +671,15 @@ var _Event_prototype = global["Event"].prototype
   , _getter_KeyboardEvent_location
 
   , _initKeyboardEvent_isWebKit_or_IE_type = (function(e) {
-  			e.initKeyboardEvent(/*in DOMString typeArg*/"keyup", /*in boolean canBubbleArg*/false, /*in boolean cancelableArg*/false, /*in views::AbstractView viewArg*/global, 
-  				/*[test]in DOMString keyIdentifierArg*/"+",
-  				/*[test]in unsigned long keyLocationArg*/3,
-  				/*[test]in boolean ctrlKeyArg*/true,
-  					/*in boolean shiftKeyArg*/false, /*in boolean altKeyArg*/false, /*in boolean metaKeyArg*/false, /*in boolean altGraphKeyArg*/false)
-  			return (e.keyIdentifier || e["key"] == "+" && e["keyLocation"] || e["location"] == 3) && (e.ctrlKey ? 1 : e.shiftKey ? 3 : 2);
+  			try {
+	  			e.initKeyboardEvent(/*in DOMString typeArg*/"keyup", /*in boolean canBubbleArg*/false, /*in boolean cancelableArg*/false, /*in views::AbstractView viewArg*/global, 
+	  				/*[test]in DOMString keyIdentifierArg*/"+",
+	  				/*[test]in unsigned long keyLocationArg*/3,
+	  				/*[test]in boolean ctrlKeyArg*/true,
+	  					/*in boolean shiftKeyArg*/false, /*in boolean altKeyArg*/false, /*in boolean metaKeyArg*/false, /*in boolean altGraphKeyArg*/false)
+	  			return (e.keyIdentifier || e["key"] == "+" && e["keyLocation"] || e["location"] == 3) && (e.ctrlKey ? 1 : e.shiftKey ? 3 : 2);
+	  		}
+	  		catch(__e__) { }
 		})(document.createEvent("KeyboardEvent"))
 
   , canOverwrite_keyCode
