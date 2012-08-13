@@ -1,4 +1,5 @@
- /** @license DOM Keyboard Event Level 3 polyfill | MIT License (c) copyright Egor Halimonenko (termi1uc1@gmail.com | github.com/termi) */
+ /** DOM Keyboard Event Level 3 polyfill
+  * @license MIT License (c) copyright Egor Halimonenko (termi1uc1@gmail.com) */
 
 // ==ClosureCompiler==
 // @compilation_level ADVANCED_OPTIMIZATIONS
@@ -676,10 +677,10 @@ var _Event_prototype = global["Event"].prototype
 	  				/*[test]in DOMString keyIdentifierArg*/"+",
 	  				/*[test]in unsigned long keyLocationArg*/3,
 	  				/*[test]in boolean ctrlKeyArg*/true,
-	  					/*in boolean shiftKeyArg*/false, /*in boolean altKeyArg*/false, /*in boolean metaKeyArg*/false, /*in boolean altGraphKeyArg*/false)
-	  			return (e.keyIdentifier || e["key"] == "+" && e["keyLocation"] || e["location"] == 3) && (e.ctrlKey ? 1 : e.shiftKey ? 3 : 2);
-	  		}
-	  		catch(__e__) { }
+	  					/*in boolean shiftKeyArg*/false, /*in boolean altKeyArg*/false, /*in boolean metaKeyArg*/false, /*in boolean altGraphKeyArg*/false);
+  				return (e.keyIdentifier || e["key"] == "+" && e["keyLocation"] || e["location"] == 3) && (e.ctrlKey ? 1 : e.shiftKey ? 3 : 2);
+  			}
+  			catch(__e__) { }
 		})(document.createEvent("KeyboardEvent"))
 
   , canOverwrite_keyCode
@@ -688,17 +689,16 @@ var _Event_prototype = global["Event"].prototype
 ;
 
 if(_Object_getOwnPropertyDescriptor) {
-	(tmp = _Object_getOwnPropertyDescriptor(KeyboardEvent.prototype, "key")) && //IE9 has key property
-		(_Event_prototype__native_key_getter = tmp["get"]);
+	tmp = {};
 
-	(tmp = _Object_getOwnPropertyDescriptor(KeyboardEvent.prototype, "char")) &&//IE9 has key property
-		(_Event_prototype__native_char_getter = tmp["get"]);
-
-	(tmp = _Object_getOwnPropertyDescriptor(KeyboardEvent.prototype, "location")) && //IE9 has key property
-		(_Event_prototype__native_location_getter = tmp["get"]);
-
-	(tmp = _Object_getOwnPropertyDescriptor(KeyboardEvent.prototype, "keyCode")) && //IE9 doesn't allow overwrite "keyCode" and "charCode"
-		(_Event_prototype__native_keyCode_getter = tmp["get"]);
+	//IE9 has key property
+	_Event_prototype__native_key_getter = (_Object_getOwnPropertyDescriptor(_KeyboardEvent_prototype, "key") || tmp)["get"];
+	//IE9 has key property
+	_Event_prototype__native_char_getter = (_Object_getOwnPropertyDescriptor(_KeyboardEvent_prototype, "char") || tmp)["get"];
+	//IE9 has key property
+	_Event_prototype__native_location_getter = (_Object_getOwnPropertyDescriptor(_KeyboardEvent_prototype, "location") || tmp)["get"];
+	//IE9 doesn't allow overwrite "keyCode" and "charCode"
+	_Event_prototype__native_keyCode_getter = (_Object_getOwnPropertyDescriptor(_KeyboardEvent_prototype, "keyCode") || tmp)["get"];
 }
 
 /*
@@ -869,7 +869,8 @@ function _KeyboardEvent(type, dict) {// KeyboardEvent  constructor
 	if(!("isTrusted" in e))e.isTrusted = false;
 
 	return e;
-};
+}
+
 _KeyboardEvent["DOM_KEY_LOCATION_STANDARD"]      = _DOM_KEY_LOCATION_STANDARD; // Default or unknown location
 _KeyboardEvent["DOM_KEY_LOCATION_LEFT"]          = _DOM_KEY_LOCATION_LEFT; // e.g. Left Alt key
 _KeyboardEvent["DOM_KEY_LOCATION_RIGHT"]         = _DOM_KEY_LOCATION_RIGHT; // e.g. Right Alt key
@@ -890,8 +891,23 @@ if(!(canOverwrite_keyCode = tmp.keyCode == 9) && _Event_prototype__native_keyCod
 			if("__keyCode" in this)return this["__keyCode"];
 
 			return _Event_prototype__native_keyCode_getter.call(this);
+		},
+		"set" : function(newValue) {
+			return this["__keyCode"] = isNaN(newValue) ? 0 : newValue;
 		}
 	});	
+	_Object_defineProperty(_KeyboardEvent_prototype, "charCode", {
+		"enumerable" : true,
+		"configurable" : true,
+		"get" : function() {
+			if("__charCode" in this)return this["__charCode"];
+
+			return _Event_prototype__native_keyCode_getter.call(this);
+		},
+		"set" : function(newValue) {
+			return this["__charCode"] = isNaN(newValue) ? 0 : newValue;
+ 		}
+ 	});	
 }
 else _Event_prototype__native_keyCode_getter = void 0;
 
@@ -954,8 +970,10 @@ _Object_defineProperty(_KeyboardEvent_prototype, "char", {
 
 		var _keyCode = thisObj.which || thisObj.keyCode
 		  , notKeyPress = thisObj.type != "keypress"
-		  , value = notKeyPress && VK_COMMON[_keyCode]
-		  , hasShifed_and_Unshifed_value = typeof value == "object" && (typeof value._char != "undefined" || typeof value._charShifted != "undefined")
+		  , hasShifed_and_Unshifed_value =
+				typeof (value = notKeyPress && VK_COMMON[_keyCode]) == "object"
+				&&
+				(typeof value._char != "undefined" || typeof value._charShifted != "undefined")
 		  , needLowerCase = (notKeyPress || hasShifed_and_Unshifed_value) && !thisObj.shiftKey
 		;
 
@@ -1007,7 +1025,7 @@ _getter_KeyboardEvent_location = function() {
 	}
 
 	return this["__location"] = value;
-}
+};
 _Object_defineProperty(_KeyboardEvent_prototype, "location", {
 	"enumerable" : true,
 	"configurable" : true,
@@ -1172,7 +1190,7 @@ function _keyDown_via_keyPress_Handler(e) {
 			return old_removeEventListener.call(this, type, listener, useCapture);
 		};
 	}
-})
+});
 
 //cleaning
 _DOM_KEY_LOCATION_LEFT = _DOM_KEY_LOCATION_RIGHT = _DOM_KEY_LOCATION_NUMPAD = _DOM_KEY_LOCATION_MOBILE = _DOM_KEY_LOCATION_JOYSTICK = 
