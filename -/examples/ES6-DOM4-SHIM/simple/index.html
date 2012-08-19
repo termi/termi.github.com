@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<style>
+.null {
+	background: black !important;
+	color: red
+}
+.cotainer, .header, .footer {
+	display: block;
+}
+</style>
+<!--[if lt IE 9]>
+<script src="http://h123.ru/js/a.ie8.js"></script>
+<![endif]-->
+<!--[if lt IE 8]>
+<script src="http://h123.ru/js/a.ielt8.js"></script>
+<![endif]-->
+<script src="http://h123.ru/js/a.js"></script>
+<script>
+document.createElement("j");
+document.createElement("c");
+document.createElement("h");
+document.createElement("f");
+</script>
+
+</head>
+<body>
+
+<j id=test1 style="display:block;background:green;height:40px" class=test color1=gray color2=red color3=yellow>
+test
+</j>
+
+<div id=test2 class="test2 linked_data">
+test2
+</div>
+
+<c class="container" id=testContainer>
+	<h class="header">
+		<h4>Container header</h4>
+	</h>
+	
+	<data class="data">
+		<c class="container">
+			<h class="header">
+				<h5>List</h5>
+			</h>
+			
+			<ul class="data">
+				<li>asdf</li>
+				<li>asdf</li>
+				<li>asdf</li>
+				<li>asdf</li>
+			</ul>
+			
+			<f class="footer">
+				<p>List up here</p>
+			</f>
+		</c>
+		<c class="container">
+			<h class="header">
+				<h5>Img</h5>
+			</h>
+			
+			<img class="data" src="htts://h123.ru/-/images/small/anime_girl_1.jpg" />
+				
+			<f class="footer">
+				<p>Image up here</p>
+			</f>
+		</c>
+	</data>
+	
+	<f class="footer">
+		<p>Container footer</p>
+	</f>
+</c>
+
+<c id=controls style="position:fixed;top:200px;right:50px;background:gray;padding:20px">
+	<button data-action="stop" data-alternative='{"innerHTML":"Play","attr:data-action":"play"}'>Pause</button>
+</c>
+<script>
+function main() {
+	//aliases
+	var $ = Function.prototype.bind.call(document.getElementById, document);
+	var $$ = Function.prototype.bind.call(document.querySelectorAll, document);
+	var $$0 = Function.prototype.bind.call(document.querySelector, document);
+
+
+	var controls = {
+		handleEvent : function(e) {
+			var target = e.target
+			  , action = this["$" + target.getAttribute("data-action") || ""]
+			;
+
+			if(!action)return
+
+			action.call(this);
+
+			var alternative = JSON.parse(target.getAttribute("data-alternative") || "{}")
+			  , newAlt = {}
+			;
+
+			Object.keys(alternative).forEach(function(key) {
+				var tmp, attrKey = key;
+				newAlt[key] =
+					!~key.indexOf("attr:") == 0 ?
+						(attrKey = attrKey.substr(5), tmp = target.getAttribute(attrKey), target.setAttribute(attrKey, alternative[key]), tmp) :
+						(tmp = target[key], target[key] = alternative[key], tmp);
+			}, null);
+
+			target.setAttribute("data-alternative", JSON.stringify(newAlt));
+		},
+
+		$stop : function() {
+			this.testInterval && clearInterval(this.testInterval);
+		},
+
+		$play : function() {
+			this.testInterval = setInterval(function() {
+				j.dispatchEvent(new CustomEvent("someEvent", {bubbles : true, detail : ++att > 3 ? att = 0 : att}));
+			}, 1000);
+		}
+	};
+	$$("#controls")[0].addEventListener("click", controls);
+
+
+	function LOG(message) {
+		if(console.log) {
+			console.log(message);
+		}
+	}
+
+	window.addEventListener("someEvent", function doSomething(event) {
+		var i,
+			j = event.target;
+		
+		if(event.detail) {
+			!isNaN(event.detail) && 
+				(i = "color" + event.detail), 
+					j.attributes[i] &&
+						(j.style.backgroundColor = j.attributes[i].value);
+		}
+		else {
+			!~(j.classList+"").indexOf("null") ? 
+				j.classList.add(null) :
+				j.classList.remove(null)
+		}
+	});
+	
+	var dosome1;
+	document.addEventListener("someEvent", dosome1 = function(event) {
+		LOG((this === document ? "document" : "window") + " someEvent " + (event.eventPhase === Event.BUBBLING_PHASE ? "bubble" : "capture"))
+	});
+	document.addEventListener("someEvent", dosome1, true);
+	window.addEventListener("someEvent", dosome1, false);
+	document.addEventListener("someEvent", dosome1, false);
+	
+	var j = document.getElementsByClassName("test")[0];
+	j.addEventListener("someEvent", LOG.bind(null, "j someEvent bubble"), false);
+	j = $$0(".test");
+	j.addEventListener("someEvent", LOG.bind(null, "j someEvent capture"), true);
+	
+	$("test2").addEventListener("someEvent", LOG.bind(null, "test2 someEvent capture"), true);
+	
+	var att = 0;
+
+	controls.$play();
+
+}
+
+document.addEventListener('DOMContentLoaded', main);
+</script>

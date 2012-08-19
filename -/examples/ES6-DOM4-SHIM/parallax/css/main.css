@@ -140,47 +140,72 @@ nav#primary li:hover h1 {
 }
 nav#primary a {
 	display: block;
-	width: 20px;
-	height: 20px;
+	width: 12px;
+	height: 12px;
 	text-indent: -9999px;
-	background: transparent url('../img/nav-dot.png') 4px 4px no-repeat;
+	-webkit-border-radius: 50% 50%;
+	moz-border-radius: 50% 50%;
+	border-radius: 50% 50%;
+	background: white;
+	border: 1px solid #21a97e;
 }
 nav#primary a:hover, nav#primary a.active {
-	background: transparent url('../img/nav-dot.png') 4px -16px no-repeat;
+	background: #21a97e;
+	border: 1px solid white;
 }
 nav#primary h1 {
 	position: absolute;
-	right: 22px;
+	right: 30px;
 	top: -7px;
 	display: none;
-	padding: 4px 20px 4px 7px;;
+	padding: 4px 7px;;
 	color: #fff;
 	white-space: nowrap;
-	background: transparent url('../img/nav-arrow.png') 100% 50% no-repeat;
+	background: #21a97e;
 	}
+nav#primary h1:after {
+	position: absolute;
+	top: 50%;
+	margin-top: -6px;
+	right: -5px;
+	border-bottom: 6px solid transparent;
+	border-left: 6px solid #21a97e;
+	border-top: 6px solid transparent;
+	content: " ";
+	font-size: 0px;
+	color: transparent;
+	height: 0px;
+	width: 0px;
+	overflow: hidden;
+}
 nav.next-prev {
 	margin: 20px 0 0 0;
 	}
 	a.prev,
 	a.next {
 		display: block;
-		width: 15px;
-		height: 11px;
+		width: 0;
+		height: 0;
 		text-indent: -9999px;
+		margin: auto;
 		}
 	a.prev {
-		margin: 0 auto 5px auto;
-		background: transparent url('../img/scroll-arrow-up.png') 0 0 no-repeat;
+		border-left: 12px solid transparent;
+		border-right: 12px solid transparent;
+		border-bottom: 12px solid #21a97e;
+		margin-bottom: 5px;
 		}
 		a.prev:hover {
-			background: transparent url('../img/scroll-arrow-up.png') 0 -11px no-repeat;
+			border-bottom-color: black;
 			}
 	a.next {
-		margin: 5px auto 0 auto;
-		background: transparent url('../img/scroll-arrow-down.png') -1px 0 no-repeat;
+		border-left: 12px solid transparent;
+		border-right: 12px solid transparent;
+		border-top: 12px solid #21a97e;
+		margin-top: 5px;
 		}
 		a.next:hover {
-			background: transparent url('../img/scroll-arrow-down.png') -1px -11px no-repeat;
+			border-top-color: black;
 			}
 
 /* Parallax
@@ -227,97 +252,4 @@ nav.next-prev {
 			position: absolute;
 			top: 3270px;
 			}
-/* foreground (ballons/landscape) */
-#parallax-bg3 {
-	z-index: 3;
-	position: fixed;
-	left: 50%; /* align left edge with center of viewport */
-	top: 0;
-	width: 940px;
-	margin-left: -470px; /* move left by half element's width */
-	}
-	/* balloon */
-	#bg3-1 {
-		position: absolute;
-		top: -111px;
-		left: 355px;
-		}
-	#bg3-2 {
-		position: absolute;
-		top: 812px;
-		left: 321px;
-		}
-	#bg3-3 {
-		position: absolute;
-		top: 1628px;
-		left: 403px;
-		}
-	#bg3-4 {
-		position: absolute;
-		top: 2700px;
-		left: -85px;
-		}
-/* midground (clouds) */
-#parallax-bg2 {
-	z-index: 2;
-	position: fixed;
-	left: 50%; /* align left edge with center of viewport */
-	top: 0;
-	width: 1200px;
-	margin-left: -600px; /* move left by half element's width */
-	}
-	#bg2-1 {
-		position: absolute;
-		top: 162px;
-		left: 200px;
-		}
-	#bg2-2 {
-		position: absolute;
-		top: 300px;
-		left: 1150px;
-		}
-	#bg2-3 {
-		position: absolute;
-		top: 543px;
-		left: -35px;
-		}
-	#bg2-4 {
-		position: absolute;
-		top: 1180px;
-		left: 250px;
-		}
-	#bg2-5 {
-		position: absolute;
-		top: 900px;
-		left: 890px;
-		}
-/* background (clouds) */
-#parallax-bg1 {
-	z-index: 1;
-	position: fixed;
-	left: 50%; /* align left edge with center of viewport */
-	top: 0;
-	width: 1200px;
-	margin-left: -600px; /* move left by half element's width */
-	}
-	#bg1-1 {
-		position: absolute;
-		top: 85px;
-		left: -270px;
-		}
-	#bg1-2 {
-		position: absolute;
-		top: 440px;
-		left: 795px;
-		}
-	#bg1-3 {
-		position: absolute;
-		top: 900px;
-		left: -220px;
-		}
-	#bg1-4 {
-		position: absolute;
-		top: 1020px;
-		left: 450px;
-		}
 
