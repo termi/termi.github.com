@@ -12,13 +12,15 @@
 	display: block;
 }
 </style>
-<!--[if lt IE 9]>
-<script src="http://h123.ru/js/a.ie8.js"></script>
-<![endif]-->
+<!--https://github.com/termi/ES5-DOM-SHIM-->
 <!--[if lt IE 8]>
 <script src="http://h123.ru/js/a.ielt8.js"></script>
 <![endif]-->
+<!--[if IE 8]>
+<script src="http://h123.ru/js/a.ie8.js"></script>
+<![endif]-->
 <script src="http://h123.ru/js/a.js"></script>
+
 <script>
 document.createElement("j");
 document.createElement("c");
@@ -172,3 +174,5 @@ function main() {
 
 document.addEventListener('DOMContentLoaded', main);
 </script>
+<script>if(typeof JSON=="undefined")document.write("<script src='/js/libs/json3.min.js'><\/script>")</script>
+
