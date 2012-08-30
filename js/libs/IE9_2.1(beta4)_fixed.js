@@ -690,6 +690,7 @@
 
 				function q(d) {
 					if (!d) return "all";
+					d = d + "";// <termi 20.08.2012> | add this line
 					var c = d.toLowerCase().split(/\s*,\s*/);
 					d = "none";
 					for (var a = 0; a < c.length; a++) {
