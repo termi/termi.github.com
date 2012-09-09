@@ -1,0 +1,9 @@
+{
+"name":"contacts",
+"description":"Contacts information about me",
+"version":{"number":"0.1","hint":"early version"},
+"html":"index.html",
+"app":"index.js",
+"js":["/js/wascrips/jsloader"],
+"css":["index","/css/blocks/about","/css/blocks/location","/css/blocks/contacts","/css/blocks/socials"]
+}

@@ -1,0 +1,250 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7]><html lang="ru" class="ie6 ielt7 ielt8 ielt9"><![endif]-->
+<!--[if IE 7]><html lang="ru" class="ie7 ielt8 ielt9"><![endif]-->
+<!--[if IE 8]><html lang="ru" class="ie8 ielt9"><![endif]-->
+<!--[if IE 9]><html lang="ru" class="ie9"><![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--><html lang="ru"><!--<![endif]-->
+<head>
+	<meta charset="utf-8" />
+	<!-- Always force latest IE rendering engine (even in intranet) & Chrome Frame -->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+	<!--[if lt IE 8]>
+	<script src="/js/a.ielt8.js"></script>
+	<![endif]-->
+	<!--[if IE 8]>
+	<script src="/js/a.ie8.js"></script>
+	<![endif]-->
+	<script src="/js/a.js"></script>
+
+	<!--[if lt IE 8]>
+	<script src="/js/microdata-js.ielt8.js"></script>
+	<![endif]-->
+	<script src="/js/microdata-js.js"></script>
+
+	<script src="/js/XHR2.js"></script>
+
+	<link rel="stylesheet" href="http://h123.ru/css/a.css?cache_year" />
+	<style>
+	p {
+		padding: 0;
+		margin: 0;
+	}
+
+	.b-gallery > * {
+		border: 1px solid gray;
+		min-height: 40px;
+	}	
+	
+	.b-gallery__screen.b-image-wrapper .b-image-wrapper__image {
+		
+	}
+
+	.b-image-wrapper {
+		position: relative;
+	}
+		.b-image-wrapper__image {
+			width: 600px;
+			height: 400px;
+		}
+		.b-image-wrapper .b-image-wrapper__caption,
+		.b-image-wrapper .b-image-wrapper__description{
+			position: absolute;
+			background: rgba(130, 130, 130, 0.55);
+			left: 0;
+			right: 0;
+			color: white;
+		}
+		.b-image-wrapper__caption {
+			top: 0;
+		}
+		.b-image-wrapper__description {
+			bottom: 0;
+		}
+
+	.b-image-wrapper_thumbnail {
+		display: inline-block;
+		width: 160px;
+		height: 120px;
+		margin-right: 4px;
+		border: 2px solid gray;
+		cursor: pointer;
+	}
+		.b-image-wrapper_thumbnail .b-image-wrapper__image {
+			width: 160px;
+			height: 120px;
+		}
+		.b-image-wrapper_thumbnail .b-image-wrapper__caption {
+			font-size: 12px;
+		}
+		.b-image-wrapper_thumbnail .b-image-wrapper__description {
+			font-size: 10px;
+		}
+	/*.b-image-wrapper_thumbnail_select,*/
+	.b-image-wrapper_thumbnail.select {
+		border: 2px solid green;
+	}
+	
+	</style>
+</head>
+
+<body itemscope="" itemtype="onlifeschema.org/WebApplication" itemid="urn:app:test1">
+<!-- TODO:: 
+https://developer.mozilla.org/en-US/demos/detail/3d-image-transitions/launch
+http://www.joelambert.co.uk/flux/
+-->
+<section class="w-container b-gallery" itemscope="" itemprop="gallery e-component" itemtype="onlifeschema.org/WebApplication schema.org/ImageGallery" itemid="urn:app:apps/galleryWrapper">
+  <header class="w-container__header">
+    <h3 class="b-gallery__title" itemprop="name">Microdata Image Gallary Examples</h3>
+    <p class="b-gallery__description" itemprop="description"></p>
+  </header>
+  <div class="w-container__data b-gallery__screen b-image-wrapper" itemprop="primaryImageOfPage" itemscope="" itemtype="schema.org/ImageObject">
+    <img class="b-image-wrapper__image" itemprop="contentURL" src="#">
+    <p class="b-image-wrapper__caption" itemprop="name caption"></p>
+    <span class="b-image-wrapper__description" itemprop="description"></span>
+  </div>
+  <footer class="w-container__footer">
+    <div class="b-image-wrapper b-image-wrapper_thumbnail select" itemprop="associatedMedia" itemscope="" itemtype="schema.org/ImageObject">
+      <p class="b-image-wrapper__caption" itemprop="name caption">Example 1</p>
+      <span class="b-image-wrapper__description" itemprop="description">Example description 1</span>
+      <meta itemprop="contentURL" content="http://officeimg.vo.msecnd.net/en-us/images/MP900444032.jpg?Download=1" />
+      <img class="b-image-wrapper__image" itemprop="thumbnail" src="http://officeimg.vo.msecnd.net/en-us/files/049/521/ZA102834170.jpg" />
+    </div>
+    <div class="b-image-wrapper b-image-wrapper_thumbnail" itemprop="associatedMedia" itemscope="" itemtype="schema.org/ImageObject">
+      <p class="b-image-wrapper__caption" itemprop="name caption">Example 2</p>
+      <span class="b-image-wrapper__description" itemprop="description">Example description 2</span>
+      <meta itemprop="contentURL" content="http://officeimg.vo.msecnd.net/en-us/images/MP900443522.jpg?Download=1" />
+      <img class="b-image-wrapper__image" itemprop="thumbnail" src="http://officeimg.vo.msecnd.net/en-us/files/379/227/ZA102834171.jpg" />
+    </div>
+    <div class="b-image-wrapper b-image-wrapper_thumbnail" itemprop="associatedMedia" itemscope="" itemtype="schema.org/ImageObject">
+      <p class="b-image-wrapper__caption" itemprop="name caption">Example 3</p>
+      <span class="b-image-wrapper__description" itemprop="description">Example description 3</span>
+      <meta itemprop="contentURL" content="http://officeimg.vo.msecnd.net/en-us/images/MP900444473.jpg?Download=1" />
+      <img class="b-image-wrapper__image" itemprop="thumbnail" src="http://officeimg.vo.msecnd.net/en-us/files/473/638/ZA102834172.jpg" />
+    </div>
+    <div class="b-image-wrapper b-image-wrapper_thumbnail" itemprop="associatedMedia" itemscope="" itemtype="schema.org/ImageObject">
+      <p class="b-image-wrapper__caption" itemprop="name caption">Example 4</p>
+      <span class="b-image-wrapper__description" itemprop="description">Example description 4</span>
+      <meta itemprop="contentURL" content="http://officeimg.vo.msecnd.net/en-us/images/MP900444119.jpg?Download=1" />
+      <img class="b-image-wrapper__image" itemprop="thumbnail" src="http://officeimg.vo.msecnd.net/en-us/files/503/776/ZA102834173.jpg" />
+    </div>
+    <div class="b-image-wrapper b-image-wrapper_thumbnail" itemprop="associatedMedia" itemscope="" itemtype="schema.org/ImageObject">
+      <p class="b-image-wrapper__caption" itemprop="name caption">Example 5</p>
+      <span class="b-image-wrapper__description" itemprop="description">Example description 5</span>
+      <meta itemprop="contentURL" content="http://officeimg.vo.msecnd.net/en-us/images/MP900423780.jpg?Download=1" />
+      <img class="b-image-wrapper__image" itemprop="thumbnail" src="http://officeimg.vo.msecnd.net/en-us/files/336/759/ZA102834174.jpg" />
+    </div>
+    <div class="b-image-wrapper b-image-wrapper_thumbnail" itemprop="associatedMedia" itemscope="" itemtype="schema.org/ImageObject">
+      <p class="b-image-wrapper__caption" itemprop="name caption">Example 6</p>
+      <span class="b-image-wrapper__description" itemprop="description">Example description 6</span>
+      <meta itemprop="contentURL" content="http://placedog.com/600/400?6" />
+      <img class="b-image-wrapper__image" itemprop="thumbnail" src="http://placedog.com/600/400?6" />
+    </div>
+  </footer>
+</section>
+
+<div itemscope="" itemprop="e-component" itemtype="onlifeschema.org/WebApplication" itemid="urn:app:test1"></div>
+
+<script>
+/*
+ * Temporary :) load all /jswascripts/js/ due I don't have enough time to include something like AMD or browserfy
+ * */
+;(function(global){
+	var libs = {}
+			, xhr = new XMLHttpRequest()
+			, func = function(){}
+			, createLib = function(libName, libText) {
+				libText = new Function("exportObject", "exportName", "(function(){var defExp=Math.random();module={exports:defExp};" + libText + ";if(module.exports!=defExp)exportObject[exportName]=module.exports})();");
+				try{libText(libs, libName)}catch(_e_){}
+			}
+			;
+
+	global["require"] = function(libName) {
+		return libs[libName];
+	};
+
+	[
+		"JSLoader",
+		"DelegateListener"
+	].forEach(function(libName) {
+				func = (function(src) {
+					var nextFunc = this;
+
+					xhr.open("GET", src, false);
+					xhr.timeout = 1e5;//TODO:: if ontimeout -> try again later
+					xhr.ontimeout = xhr.onerror = xhr.onabort = nextFunc;
+					xhr.onloadend = function() {
+						var text;
+						try{ text = this.responseText } catch(_e_){}
+						if(text)createLib(libName, text);
+						nextFunc();
+					};
+					xhr.send();
+				}).bind(func, "/js/wascripts/js/" + libName + ".js");
+			});
+	func();
+})(window);
+</script>
+<script src="/js/dev/md/src/enum.ui.EventTypes.js"></script>
+<script src="/js/dev/md/src/class.MicroformatError.js"></script>
+<script src="/js/dev/md/src/class.ui.WAElement.js?2"></script>
+<script src="/js/dev/md/src/class.ui.WebApplication.js?2"></script>
+<script src="/js/dev/md/src/class.ui.WATabs.js"></script>
+<script src="/js/dev/md/src/class.ui.ImageGallery.js"></script>
+<script src="/js/dev/md/src/class.ui.SlideShow.js"></script>
+<script src="/js/dev/md/src/class.ui.WAMenu.js"></script>
+<script src="/js/dev/md/src/class.ui.WAForm.js"></script>
+<script src="/js/dev/md/src/enum.MicroformatConstructors.js"></script>
+<script src="/js/dev/md/src/object.ResourceManager.js?2"></script>
+<!--script src="/js/dev/md/microdata-ui.js"></script-->
+
+<script>
+;(function(global) {//closure
+
+//Включаем автообновление микроданных
+//global.microdata_liveProperties = true
+
+//Инициализация приложения START
+if(!global.Site)global.Site = {};
+var Site = global.Site,
+	MicroformatConstructors = global["MicroformatConstructors"];
+
+function main() {
+	//Получаем ссылку на ВЕБ-приложение
+	var type = "onlifeschema.org/WebApplication",
+		webAppElement = document.getItems(type)[0];
+	
+	var _constructor = MicroformatConstructors[type];
+		
+	if(_constructor) {
+		Site.webApp = new _constructor(webAppElement, null);
+		Site.webApp.init();
+	}
+	else console.error("There is no constructor named '" + type + "'")
+}
+if(document.readyState == "complete")main();
+else window.addEventListener("DOMContentLoaded", main);
+//Инициализация приложения END
+
+//Зарегистрируем тестовое приложение
+global["ResourceManager"].applications["apps/galleryWrapper"] = {
+	id : "galleryWrapper",
+	app : function() {
+		var thisObj = this;
+		thisObj.init = function(root) {
+			var _name = root.properties["name"][0].itemValue;
+			root.addEventListener("showimage", function(event) {
+				root.properties["name"][0].itemValue = _name + " " + (document.title = event.detail.properties["name"][0].itemValue)
+				root.properties["description"][0].itemValue = event.detail.properties["description"][0].itemValue
+			})
+		}
+	},
+	css : [
+		"http://static.onlf.ru/css/a.css"
+	]
+}
+
+})(window);
+</script>
+
+</body>

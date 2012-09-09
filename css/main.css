@@ -1,14 +1,14 @@
-#main > .navbar-left {
+.b-columns_left .b-column {
 	float: left;
-	width: 20%;
 }
-#main > .data {
-	float: left;
-	width: 80%;
-}
-#main > footer {
-	clear: both;
-}
-#main > .navbar-left .tabs-left > .nav-tabs {
+		.b-column_20per {
+			width: 20%;
+		}
+		.b-column_80per {
+			width: 80%;
+		}
+
+.tabs-left > .b-nav-tabs_nofloat
+, .b-nav-tabs_nofloat {
 	float: none;
 }

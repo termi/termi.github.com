@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <!--[if lt IE 7]><html id="no-js" lang="ru" class="ie6 lt-ie9 lt-ie8 lt-ie7"><![endif]-->
 <!--[if IE 7]><html id="no-js" lang="ru" class="ie7 lt-ie9 lt-ie8"><![endif]-->
 <!--[if IE 8]><html id="no-js" lang="ru" class="ie8 lt-ie9"><![endif]-->
@@ -21,7 +21,7 @@
 
 	<!-- Place favicon.ico & apple-touch-icon.png in the root of your domain and delete these references -->
 	<!--link rel="shortcut icon" href="f.ico" /-->
-	<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+	<!--link rel="apple-touch-icon" href="/apple-touch-icon.png" /-->
 	
 	<link rel="stylesheet" href="/css/a.css?cache_year" />
 	<link rel="stylesheet" href="/css/bootstrap.custom.termi.css" />
@@ -44,86 +44,90 @@
 </head>
 <body>
 
-<div id="container" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/index">
+<div itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/index">
 
-<header></header>
+	<header class="w-container__header">
 
-<div id="main" class="data tabbable">
-	<header class="navbar-left">
-		<section class="navbar-left__info">
-			<h1 class="navbar-left__info__name"><a class="brand" href="#">Егор</a></h1>
-			<img class="navbar-left__info__logo" width="80px" height="80px" src="http://gravatar.com/avatar/78ba5b1e9091d87666a135b3d63d3734.png" />
-			<h2 class="navbar-left__info__desc">JS developer</h2>
-		</section>
-
-		<nav class="navbar-left-inner tabs-left">
-			<header></header>
-
-			<ul class="data container nav nav-tabs" itemscope="" itemtype="h123.ru/WAMenu" itemprop="_component" data-dispatch-event="pagechange">
-				<li class="active" itemprop="_menuItemName"><a href="h123.ru/contacts" title="contacts" itemprop="_menuItemUrl">Contacts</a></li>
-				<li itemprop="_menuItemName"><a href="h123.ru/projects" title="projects" itemprop="_menuItemUrl">Projects</a></li>
-				<li itemprop="_menuItemName"><a href="h123.ru/blog" title="blog" itemprop="_menuItemUrl">Blog</a></li>
-			</ul>		
-
-			<footer></footer>
-		</nav> 
 	</header>
-	
-	<div class="data tab-content">
-		<section class="active" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/contacts">
-			<header></header>
 
-			<div class="data" itemscope="" itemtype="http://schema.org/Person">
-				<header>
-					<h1 itemprop="name givenName">Егор</h1>
-					<img itemprop="image" width="80px" height="80px" src="http://gravatar.com/avatar/78ba5b1e9091d87666a135b3d63d3734.png" />
-					<h2 itemprop="jobTitle">JS developer</h2>
+	<div class="w-container tabbable b-columns_left" itemprop="e-component" itemscope="" itemtype="h123.ru/WATabs" data-wa-data="{type:pages}">
+		<header class="w-container__header b-column b-column_20per">
+			<section class="b-about">
+				<h1 class="b-about__name">
+					<a class="brand" href="#">Егор</a></h1>
+				<img class="b-about__avatar" width="80px" height="80px" src="http://gravatar.com/avatar/78ba5b1e9091d87666a135b3d63d3734.png" />
+				<h2 class="b-about__job">JS developer</h2>
+			</section>
+
+			<nav class="w-container tabs-left">
+				<header class="w-container__header">
+
 				</header>
-				<article class="data">
-					<div itemscope="" itemprop="address">
-						<header itemprop="name"><u class="title">Main location</u></header>
-						<div class="data">
-							<span itemprop="addressCountry">Russia, </span>
-							<span itemprop="addressRegion">Moscow</span>
-						</div>
-						<footer>
-							<a href="http://maps.google.com/maps?q=Russia,+Moscow&hl=ru&ie=UTF8&sll=55.738709,37.648773&sspn=0.32471,1.052628&hnear=%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0,+%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F&t=m&z=10" itemprop="url">View on Google Maps</a>
-						</footer>
-					</div>
-					<br />
-					<a href="tel:+79261115502" itemprop="telephone">+7(926)111-55-02</a>
-					<br />
-					<a href="mailto:1+h123@h123.ru?subject=[From home page]Hi Egor!" itemprop="email">1+h123@h123.ru</a>
-					<br />
-					<a href="skype:termi_uc" itemprop="email">skype:termi_uc</a>
-				</article>
-				<footer>
-					<a href="https://github.com/termi/">github</a><br />
-					<a href="https://twitter.com/termi_uc">twitter</a><br />
-					<a href="http://habrahabr.ru/users/termi/">habrahabr</a><br />
-				</footer>
-			</div>
 
-			<footer></footer>
-		</section>
-		<section>
-		</section>
-		<section>
-		</section>
+				<ul class="w-container__data nav nav-tabs b-nav-tabs_nofloat" itemprop="e-component" itemscope="" itemtype="h123.ru/WAMenu" data-wa-data="{event:pagechange}">
+					<li class="active b-nav-tabs__item" itemscope="" itemprop="e-item">
+						<a href="/index" title="contacts" itemprop="p-url">
+							<span itemprop="p-name">Index</span>
+						</a>
+						<meta itemprop="p-tab-target" content="index" />
+					</li>
+					<li class="b-nav-tabs__item" itemscope="" itemprop="e-item">
+						<a href="/contacts" title="contacts" itemprop="p-url">
+							<span itemprop="p-name">Contacts</span>
+						</a>
+						<meta itemprop="p-tab-target" content="contacts" />
+					</li>
+					<li class="b-nav-tabs__item" itemscope="" itemprop="e-item">
+						<a href="/projects" title="contacts" itemprop="p-url">
+							<span itemprop="p-name">Projects</span>
+						</a>
+						<meta itemprop="p-tab-target" content="projects" />
+					</li>
+					<li class="b-nav-tabs__item" itemscope="" itemprop="e-item">
+						<a href="/blog" title="contacts" itemprop="p-url">
+							<span itemprop="p-name">Blog</span>
+						</a>
+						<meta itemprop="p-tab-target" content="blog" />
+					</li>
+				</ul>
+
+				<footer class="w-container__footer">
+
+				</footer>
+			</nav>
+		</header>
+
+		<div class="w-container__data tab-content b-column b-column_80per">
+			<section class="active" itemprop="b-tab b-tab_index" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/index">
+			Temporary unavailable
+			</section>
+			<section itemprop="b-tab b-tab_contacts" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/contacts">
+			</section>
+			<section itemprop="b-tab b-tab_projects" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/projects">
+			</section>
+			<section itemprop="b-tab b-tab_blog" itemscope="" itemtype="h123.ru/WebApplication" itemid="urn:h123.ru:apps/blog">
+			</section>
+		</div>
+
+		<footer class="w-container__footer">
+
+		</footer>
 	</div>
 
-	<footer>test</footer>
+	<footer class="w-container__footer">
+
+	</footer>
+
 </div>
 
-<footer></footer>
-
-</div>
-
-<script>if(typeof JSON=="undefined")document.write("<script src='http://bestiejs.github.com/json3/lib/json3.min.js'><\/script>")</script>
+<script>if(typeof console=="undefined")document.write("<script src='/js/libs/window.console.js'><\/script>")</script>
+<script>if(typeof JSON=="undefined")document.write("<script src='/js/libs/json3.min.js'><\/script>")</script>
+<!--[if lt IE 9]>
+<script src="/js/history.ielt9.js"></script>
+<![endif]-->
 <!--[if lt IE 8]>
 <script src="/js/microdata-js.ielt8.js"></script>
 <script src="/js/Element.details.ielt8.js"></script>
-<script src="/js/history.ielt8.js"></script>
 <![endif]-->
 <!--[if IE 8]>
 <script src="/js/Element.details.ie8.js"></script>
@@ -134,11 +138,35 @@
 <!--<![endif]-->
 <script src="/js/microdata-js.js"></script>
 
-	
+
 <script>
+;(function(global) {//closure
 
+//Включаем автообновление микроданных
+//global.microdata_liveProperties = true
 
-//TODO:: init page
+//application init START
+var MicroformatConstructors = global["MicroformatConstructors"];
+
+function main() {
+	//get root WEB Application assotiated with that page
+	var type = "h123.ru/WebApplication",
+		webAppElement = document.getItems(type)[0];
+	
+	var _constructor = MicroformatConstructors[type];
+		
+	if(_constructor) {
+		Site.webApp = new _constructor(webAppElement, null);
+		Site.webApp.init();
+	}
+	else console.error("There is no constructor named '" + type + "'")
+}
+//Working in progress
+//if(document.readyState == "complete")main();
+//else window.addEventListener("DOMContentLoaded", main);
+//application init END
+
+})(window);
 </script>
 
 </body>

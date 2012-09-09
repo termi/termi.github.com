@@ -1,0 +1,7 @@
+{
+"name":"blog",
+"html":"index",
+"app":"index",
+"js":"ajax_blog",
+"data":{"recent":"data/index.json#recent","prev":"data/index.json#prev","next":"data/index.json#next"}
+}
