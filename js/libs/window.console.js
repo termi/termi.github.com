@@ -2,7 +2,7 @@
 // http://habrahabr.ru/blogs/javascript/116852/
 // https://github.com/theshock/console-cap/blob/master/console.js
 // 21.02.2012 Update with CHANGES!!!
-(function (console) {
+(function (global, console) {
 	function functionReturnFirstParam(a){return a}
 	var _unsafe_Function_bind_ = Function.prototype.bind || function(object, var_args) {
 		var __method = this,
@@ -63,4 +63,4 @@
 
 	methods = void 0;
 
-})( typeof console === 'undefined' ? null : console );
+})( window, typeof console === 'undefined' ? null : console );
