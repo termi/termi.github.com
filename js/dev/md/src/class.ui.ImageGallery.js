@@ -100,7 +100,7 @@ var ImageGallery = ui["ImageGallery"] = function (_params) {
 		
 	}
 }
-Object["inherit"](ImageGallery, ui["WAElement"]);
+Object["inherits"](ImageGallery, ui["WAElement"]);
 /* STATIC */
 
 /* PROTOTYPE */

@@ -89,7 +89,7 @@ var WAMenu = ui["WAMenu"] = function (_params) {
 		})
 	}
 }
-Object["inherit"](WAMenu, ui["WAElement"]);
+Object["inherits"](WAMenu, ui["WAElement"]);
 
 /* STATIC */
 /** @const */

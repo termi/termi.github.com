@@ -39,7 +39,7 @@ var SlideShow = ui["SlideShow"] = function (_params) {
 /* INIT */
 	thisObj["init"] = SlideShow.prototype["init"];
 }
-Object["inherit"](SlideShow, ui["ImageGallery"]);
+Object["inherits"](SlideShow, ui["ImageGallery"]);
 /* STATIC */
 
 /* PROTOTYPE */

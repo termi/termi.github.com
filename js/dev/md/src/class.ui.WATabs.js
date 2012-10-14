@@ -127,7 +127,7 @@ var WATabs = ui["WATabs"] = function (_params) {
 		thisObj.DOMElement["currentTab"] = thisObj._currentTab;
 	}
 }
-Object["inherit"](WATabs, ui["WAElement"]);
+Object["inherits"](WATabs, ui["WAElement"]);
 
 /* PROTOTYPE */
 /**

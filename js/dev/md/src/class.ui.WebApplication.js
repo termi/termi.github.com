@@ -240,7 +240,7 @@ var WebApplication = ui["WebApplication"] = function (_element, _owner) {
 		}
 	}
 }
-Object["inherit"](WebApplication, ui["WAElement"]);
+Object["inherits"](WebApplication, ui["WAElement"]);
 /* STATIC */
 
 /* PROTOTYPE */

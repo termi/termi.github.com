@@ -100,7 +100,7 @@ var WAForm = ui["WAForm"] = function(_element, _params) {
 		
 	}
 }
-Object["inherit"](WAForm, ui["WAElement"]);
+Object["inherits"](WAForm, ui["WAElement"]);
 /* STATIC */
 
 /* PROTOTYPE */
