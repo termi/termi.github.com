@@ -328,10 +328,12 @@ function main() {
 	
 	/* Click menu event handler */
 	document.addEventListener("click", delegate("a", function(e) {
-		var href = this.getAttribute("href", 2),//"2" - for IE
-			referedSection = href.startsWith("#") ?
-				$$0(href) :
-				null;
+		var href = this.getAttribute("href")
+			, referedSection = href.startsWith("#") ?
+				$$0(href)
+				:
+				null
+		;
 	
 		if(referedSection) {
 			doAnimateScroll(
@@ -346,12 +348,13 @@ function main() {
 	}));
 
 	document.addEventListener('mousewheel', function() {
-		scrollTimer && clearTimeout(scrollTimer), scrollTimer=null;
+		scrollTimer && clearTimeout(scrollTimer), scrollTimer = null;
 	});
 
 	window.onscroll();//First init
 }
 
+//Main
 document.addEventListener('DOMContentLoaded', main);
 
 
