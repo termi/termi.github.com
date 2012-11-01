@@ -18,10 +18,12 @@
 	<![endif]-->
 	<script src="/js/a.js"></script>
 
+	<!--[if gt IE 7]><!-->
+	<script src="/js/microdata-js.js"></script>
+	<!--<![endif]-->
 	<!--[if lt IE 8]>
 	<script src="/js/microdata-js.ielt8.js"></script>
 	<![endif]-->
-	<script src="/js/microdata-js.js"></script>
 
 	<script src="/js/XHR2.js"></script>
 
@@ -97,7 +99,7 @@ http://www.joelambert.co.uk/flux/
 <!-- Images from http://office.microsoft.com/en-us/images/ -->
 <section class="w-container b-gallery" itemscope="" itemprop="gallery e-component" itemtype="onlifeschema.org/WebApplication schema.org/ImageGallery" itemid="urn:app:apps/galleryWrapper">
   <header class="w-container__header">
-    <h3 class="b-gallery__title" itemprop="name">Microdata Image Gallary Examples</h3>
+    <h3 class="b-gallery__title"><title itemprop="name" style="display:inline">Microdata Image Gallary Examples</title></h3>
     <p class="b-gallery__description" itemprop="description"></p>
 	<p>Images from <a href="http://office.microsoft.com/en-us/images/">http://office.microsoft.com/en-us/images/</a></p>
   </header>
@@ -152,7 +154,7 @@ http://www.joelambert.co.uk/flux/
 /*
  * Temporary :) load all /jswascripts/js/ due I don't have enough time to include something like AMD or browserfy
  * */
-;(function(global){
+void function(global){
 	var libs = {}
 			, xhr = new XMLHttpRequest()
 			, func = function(){}
@@ -186,7 +188,7 @@ http://www.joelambert.co.uk/flux/
 				}).bind(func, "/js/wascripts/js/" + libName + ".js");
 			});
 	func();
-})(window);
+}(window);
 </script>
 <script src="/js/dev/md/src/enum.ui.EventTypes.js"></script>
 <script src="/js/dev/md/src/class.MicroformatError.js"></script>
@@ -202,7 +204,7 @@ http://www.joelambert.co.uk/flux/
 <!--script src="/js/dev/md/microdata-ui.js"></script-->
 
 <script>
-;(function(global) {//closure
+void function(global) {//closure
 
 //Включаем автообновление микроданных
 //global.microdata_liveProperties = true
@@ -247,7 +249,7 @@ global["ResourceManager"].applications["apps/galleryWrapper"] = {
 	]
 }
 
-})(window);
+}(window);
 </script>
 
 </body>
