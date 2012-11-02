@@ -138,39 +138,6 @@
                     </tr>
                 </table>
 			</details>
-
-			<br />
-
-			<details open="open">
-				<summary>
-					Keyboard shortcut generator
-				</summary>
-				<form itemscope="" itemtype="shortcuts">
-					<fieldset itemscope="" itemprop="{key}" itemtype="microdata_template">
-						<input type="submit" value="+" />
-						<label>
-							<input type="checkbox" itemprop="ctrl" />
-							<span>Ctrl</span>
-						</label>
-						<span> + </span>
-						<label>
-							<input type="checkbox" itemprop="alt" />
-							<span>Alt</span>
-						</label>
-						<span> + </span>
-						<label>
-							<input type="checkbox" itemprop="shift" />
-							<span>Shift</span>
-						</label>
-						<span> + </span>
-						<label>
-							<span>key: </span>
-							<input itemprop="char" />
-						</label>
-						<meta itemprop="key" />
-					</fieldset>
-				</form>
-			</details>
 		</div>
 	</div>
 
@@ -179,6 +146,7 @@
 void function(global) {
 
 function Application(hash) {
+	//Object["extend"] is non-standard from a.js lib
 	Object["extend"](this, hash);
 
 	document.addEventListener('DOMContentLoaded', this);
