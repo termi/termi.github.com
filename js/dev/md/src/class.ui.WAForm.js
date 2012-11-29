@@ -20,7 +20,7 @@ var ui = global["ui"] = global["ui"] || {};
 var WAForm = ui["WAForm"] = function(_element, _params) {
 	var thisObj = this;
 	//Наследуем свойства родительского класса
-	WAForm["superclass"].constructor.apply(thisObj, arguments);
+	WAForm["superclass"].apply(thisObj, arguments);
 	
 /* PRIVATE */
 	function _formOnSubmit (event) {

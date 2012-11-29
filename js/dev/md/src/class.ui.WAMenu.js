@@ -20,7 +20,7 @@ var ui = global["ui"] = global["ui"] || {};
 var WAMenu = ui["WAMenu"] = function (_params) {
 	var thisObj = this;
 	//Наследуем свойства родительского класса
-	WAMenu["superclass"].constructor.apply(thisObj, arguments);
+	WAMenu["superclass"].apply(thisObj, arguments);
 	
 /* PRIVATE */
 	var _currentMenuItem;

@@ -19,7 +19,7 @@ var ui = global["ui"] = global["ui"] || {};
 var ImageGallery = ui["ImageGallery"] = function (_params) {
 	var thisObj = this;
 	//Наследуем свойства родительского класса
-	ImageGallery["superclass"].constructor.apply(thisObj, arguments);
+	ImageGallery["superclass"].apply(thisObj, arguments);
 	
 /* PUBLIC */
 	/** Превьюшки. Список Node's @type {PropertyNodeList} */

@@ -36,7 +36,7 @@ var ui = global["ui"] = global["ui"] || {};
 var WATabs = ui["WATabs"] = function (_params) {
 	var thisObj = this;
 	//Наследуем свойства родительского класса
-	WATabs["superclass"].constructor.apply(thisObj, arguments);
+	WATabs["superclass"].apply(thisObj, arguments);
 
 /* PROTECTED */
 	/** Подтабы. Список Node's @type {Array.<Node>} */

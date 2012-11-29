@@ -16,7 +16,7 @@ var ui = global["ui"] = global["ui"] || {};
 var SlideShow = ui["SlideShow"] = function (_params) {
 	var thisObj = this;
 	//Наследуем свойства родительского класса
-	SlideShow["superclass"].constructor.apply(thisObj, arguments);
+	SlideShow["superclass"].apply(thisObj, arguments);
 
 /* PRIVATE */
 

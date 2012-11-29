@@ -40,7 +40,7 @@ var _urnPrefix = "urn",
 var WebApplication = ui["WebApplication"] = function (_element, _owner) {
 	var thisObj = this;
 	//Apply construcot of inherited class
-	WebApplication["superclass"].constructor.apply(thisObj, arguments);
+	WebApplication["superclass"].apply(thisObj, arguments);
 	
 /* PUBLIC */
 	/*TODO:: Auth form @type {ui.WAElement} */
