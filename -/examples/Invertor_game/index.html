@@ -149,14 +149,14 @@ application.prototype = {
 
 					//row
 					i = point;
-					if( (i % rowsCount) != 0 ) {
+					if( (i % colsCount) != 0 ) {
 						do {
 							cells[i -= 1].classList.toggle(activeFlag);
 						}
-						while ( i % rowsCount != 0 )
+						while ( i % colsCount != 0 )
 					}
 					i = point;
-					while ( (i += 1) % rowsCount != 0 ) {
+					while ( (i += 1) % colsCount != 0 ) {
 						cells[i].classList.toggle(activeFlag);
 					}
 
@@ -210,6 +210,38 @@ if(document.readyState == "complete")new application();
 else document.addEventListener("DOMContentLoaded", function(){new application()})
 
 }.call(this);
+
+/*var a=[
+	1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1
+].map(function(a){ return !!a })
+
+function test(point) {
+	if(point < 0)return;
+
+	var r = 2, c = 5, f = 11, l = a.length, f;
+
+	//column
+	f = point;
+	do {a[f] = !a[f]} while((f -= c) >= 0);
+	f = point;
+	while((f += c) < l){a[f] = !a[f]};
+
+	//row
+	f = point;
+	if( (f % c) != 0 ) {
+		do {
+			a[f -= 1] = !a[f]
+		}
+		while ( f % c != 0 )
+	}
+	f = point;
+	while ( (f += 1) % c != 0 ) {
+		a[f] = !a[f]
+	}
+
+	return "| " + a.map(function(a, i){  return a + ((i + 1) % c == 0 ? "\n" : "")   }).join(" | ")
+}*/
 
 </script>
 
