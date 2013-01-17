@@ -189,7 +189,7 @@ application.prototype = {
 		while( i++ < maxLength ) {
 			cell = cellsContainer.appendChild(this.__cellTeamplate.cloneNode());
 			if( (0 | Math.random() * 10) % 2 == 0 ) {
-				//cell.classList.add("MODEL_active");
+				cell.classList.add("MODEL_active");
 			}
 			cell.style.width = cellWidth + "px";
 			cell.style.height = cellHeight + "px";
@@ -210,40 +210,6 @@ if(document.readyState == "complete")new application();
 else document.addEventListener("DOMContentLoaded", function(){new application()})
 
 }.call(this);
-/*
-var a=[
-	1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1
-].map(function(a){ return !!a })
-
-function test(point) {
-	if(point < 0)return;
-
-	var r = 5, c = 4, f = 11, l = a.length, f;
-
-//column
-	f = point;
-	do {a[f] = !a[f]} while((f -= r) >= 0);
-	f = point;
-	while((f += r) < l){a[f] = !a[f]};
-
-//row
-	f = point;
-	if( (f % r) != 0 ) {
-		do {
-			a[f -= 1] = !a[f]
-		}
-		while ( f % r != 0 )
-	}
-	f = point;
-	while ( (f += 1) % r != 0 ) {
-		a[f] = !a[f]
-	}
-
-	return "| " + a.map(function(a, i){  return a + ((i + 1) % r == 0 ? "\n" : "")   }).join(" | ")
-}*/
 
 </script>
 
