@@ -51,7 +51,10 @@
 		<div class="data MODEL_cellsContainer">
 			<a href="#" title="Поверните" class="MODEL_cell">&nbsp;</a>
 		</div>
-		<style>
+		<style scoped="">
+			.MODEL_cellsContainer {
+				font-size: 0;
+			}
 			.MODEL_cell {
 				display: inline-block;
 				background-color: red;
@@ -92,9 +95,9 @@ void function(nodeList_proto) {
 }(document.documentElement.children);
 
 function application(){
-	this.__cellsContainer = document.getElementsByClassName("MODEL_cellsContainer")[0];
-	this.__cellTeamplate = this.__cellsContainer.getElementsByClassName("MODEL_cell")[0];
-	this.__newGameOptions = document.getElementsByClassName("MODEL_newGameOptions")[0];
+	this.__cellsContainer = document.querySelector(".MODEL_cellsContainer");
+	this.__cellTeamplate = this.__cellsContainer.querySelector(".MODEL_cell");
+	this.__newGameOptions = document.querySelector(".MODEL_newGameOptions");
 
 	this.__cellHeight = 50;
 	this.__cellWidth = 50;
@@ -186,13 +189,14 @@ application.prototype = {
 		;
 
 		while( cellsContainer.firstChild ) {//clean
-			cellsContainer.removeChild(cellsContainer.firstChild)
+			cellsContainer.firstChild.remove();
 		}
 
 		cellsContainer.style.width = cellWidth * colsCount + "px";
 
 		while( i++ < maxLength ) {
-			cell = cellsContainer.appendChild(this.__cellTeamplate.cloneNode());
+			cell = this.__cellTeamplate.cloneNode(true);
+			cellsContainer.append(cell);
 			if( (0 | Math.random() * 10) % 2 == 0 ) {
 				cell.classList.add("MODEL_active");
 			}
@@ -215,38 +219,6 @@ if(document.readyState == "complete")new application();
 else document.addEventListener("DOMContentLoaded", function(){new application()})
 
 }.call(this);
-
-/*var a=[
-	1, 1, 1, 1, 1,
-	1, 1, 1, 1, 1
-].map(function(a){ return !!a })
-
-function test(point) {
-	if(point < 0)return;
-
-	var r = 2, c = 5, f = 11, l = a.length, f;
-
-	//column
-	f = point;
-	do {a[f] = !a[f]} while((f -= c) >= 0);
-	f = point;
-	while((f += c) < l){a[f] = !a[f]};
-
-	//row
-	f = point;
-	if( (f % c) != 0 ) {
-		do {
-			a[f -= 1] = !a[f]
-		}
-		while ( f % c != 0 )
-	}
-	f = point;
-	while ( (f += 1) % c != 0 ) {
-		a[f] = !a[f]
-	}
-
-	return "| " + a.map(function(a, i){  return a + ((i + 1) % c == 0 ? "\n" : "")   }).join(" | ")
-}*/
 
 </script>
 
