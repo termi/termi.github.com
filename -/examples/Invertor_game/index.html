@@ -136,18 +136,20 @@ application.prototype = {
 					activeFlag = "MODEL_active";
 
 					//column
+					//column step 1. from point to up
 					i = point;
 					do {
 						cells[i].classList.toggle(activeFlag);
 					}
 					while((i -= colsCount) >= 0);
-
+					//column step 2. from point to down
 					i = point;
 					while((i += colsCount) < l){
 						cells[i].classList.toggle(activeFlag);
 					}
 
 					//row
+					//row step 1. from point to left
 					i = point;
 					if( (i % colsCount) != 0 ) {
 						do {
@@ -155,12 +157,15 @@ application.prototype = {
 						}
 						while ( i % colsCount != 0 )
 					}
+					//row step 2. from point to right
 					i = point;
 					while ( (i += 1) % colsCount != 0 ) {
 						cells[i].classList.toggle(activeFlag);
 					}
 
-					this.checkGameStatus();
+					if( this.checkGameStatus() ) {
+						this.win();
+					}
 
 					e.preventDefault();
 					e.stopPropagation();
