@@ -189,7 +189,7 @@ application.prototype = {
 		;
 
 		while( cellsContainer.firstChild ) {//clean
-			cellsContainer.firstChild.remove();
+			cellsContainer.removeChild(cellsContainer.firstChild)
 		}
 
 		cellsContainer.style.width = cellWidth * colsCount + "px";
