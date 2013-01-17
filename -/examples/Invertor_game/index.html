@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html id="no-js" lang="ru" class="ie6 lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html id="no-js" lang="ru" class="ie7 lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html id="no-js" lang="ru" class="ie8 lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!--><html id="no-js" lang="ru"><!--<![endif]-->
+<head>
+	<script>document.getElementById("no-js").id=""</script>
+
+	<meta charset="utf-8" />
+
+	<!--[if lt IE 8]>
+	<script src="http://h123.ru/js/a.ielt8.js"></script>
+	<![endif]-->
+	<!--[if IE 8]>
+	<script src="http://h123.ru/js/a.ie8.js"></script>
+	<![endif]-->
+	<script src="http://h123.ru/js/a.js"></script>
+
+</head>
+
+<body>
+
+<header>
+	<h1><title>Время: #{time}</title></h1>
+</header>
+<main>
+	<form class="section MODEL_newGameOptions">
+		<header>
+			<h2>Начать новую игру</h2>
+		</header>
+		<fieldset class="data">
+			<legend>Настройки новой игры</legend>
+			<label>
+				<span>Столбцов</span>
+				<input name="cols" value="4" />
+			</label>
+			<label>
+				<span>Строк</span>
+				<input name="rows" value="4" />
+			</label>
+		</fieldset>
+		<footer>
+			<input type="submit" />
+		</footer>
+	</form>
+
+	<section>
+		<header>
+			<h2>Текущая игра</h2>
+		</header>
+		<div class="data MODEL_cellsContainer">
+			<a href="#" title="Поверните" class="MODEL_cell">&nbsp;</a>
+		</div>
+		<style>
+			.MODEL_cell {
+				display: inline-block;
+				background-color: red;
+				content: "";
+				-webkit-transition: background-color 0.3s ease-out;  /* Safari 3.2+, Chrome */
+				-moz-transition: background-color 0.3s ease-out;  /* Firefox 4-15 */
+				-o-transition: background-color 0.3s ease-out;  /* Opera 10.5–12.00 */
+				transition: background-color 0.3s ease-out;  /* Firefox 16+, Opera 12.50+ */
+			}
+			.MODEL_cell.MODEL_active {
+				background-color: green;
+			}
+		</style>
+		<footer></footer>
+	</section>
+</main>
+<footer>
+
+</footer>
+
+<script>
+void function(){
+"use strict";
+
+var global = this;
+
+void function(nodeList_proto) {
+	if( nodeList_proto ) {
+		//in old FF nodeList_proto.__proto__ != nodeList_proto.constructor.prototype
+		nodeList_proto = nodeList_proto.__proto__ || nodeList_proto.constructor.prototype;
+
+		if(nodeList_proto && nodeList_proto !== Array.prototype && !("map" in nodeList_proto)) {
+			["every", "filter", "forEach", "indexOf", "join", "lastIndexOf", "map", "reduce", "reduceRight", "reverse", "slice", "some", "toString"].forEach(function(key) {
+				if(!nodeList_proto[key])nodeList_proto[key] = Array.prototype[key];
+			})
+		}
+	}
+}(document.documentElement.children);
+
+function application(){
+	this.__cellsContainer = document.getElementsByClassName("MODEL_cellsContainer")[0];
+	this.__cellTeamplate = this.__cellsContainer.getElementsByClassName("MODEL_cell")[0];
+	this.__newGameOptions = document.getElementsByClassName("MODEL_newGameOptions")[0];
+
+	this.__cellHeight = 50;
+	this.__cellWidth = 50;
+
+	this.__cellsContainer.addEventListener("click", this);
+	this.__newGameOptions.addEventListener("submit", this);
+
+	this.startNew();
+}
+application.prototype = {
+	constructor: application
+	, handleEvent: function(e) {
+		var targetNode = e.target
+			, currentNode = e.currentTarget
+			, tClassList = targetNode.classList
+			, cnClassList = currentNode.classList
+
+			, cellsContainer = this.__cellsContainer
+			, point
+			, colsCount = this.__colsCount
+			, rowsCount = this.__rowsCount
+			, cells
+			, cell
+			, i, l, k
+			, activeFlag
+		;
+
+		switch(e.type) {
+			case "submit":
+				this.startNew();
+				e.preventDefault();
+				e.stopPropagation();
+			break;
+			case "click":
+				if( cnClassList.contains("MODEL_cellsContainer") && tClassList.contains("MODEL_cell") ) {
+					cells = currentNode.children;
+					point = cells.indexOf(targetNode);
+					l = cells.length;
+					activeFlag = "MODEL_active";
+
+					//column
+					i = point;
+					do {
+						cells[i].classList.toggle(activeFlag);
+					}
+					while((i -= colsCount) >= 0);
+
+					i = point;
+					while((i += colsCount) < l){
+						cells[i].classList.toggle(activeFlag);
+					}
+
+					//row
+					i = point;
+					if( (i % rowsCount) != 0 ) {
+						do {
+							cells[i -= 1].classList.toggle(activeFlag);
+						}
+						while ( i % rowsCount != 0 )
+					}
+					i = point;
+					while ( (i += 1) % rowsCount != 0 ) {
+						cells[i].classList.toggle(activeFlag);
+					}
+
+					this.checkGameStatus();
+
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			break;
+		}
+	}
+
+	, startNew: function() {
+		var cellsContainer = this.__cellsContainer
+			, i = 0
+			, colsCount = this.__colsCount = +this.__newGameOptions["cols"].value
+			, rowsCount = this.__rowsCount = +this.__newGameOptions["rows"].value
+			, maxLength = colsCount * rowsCount
+			, cell
+			, cellHeight = this.__cellHeight
+			, cellWidth = this.__cellWidth
+		;
+
+		while( cellsContainer.firstChild ) {//clean
+			cellsContainer.removeChild(cellsContainer.firstChild)
+		}
+
+		cellsContainer.style.width = cellWidth * colsCount + "px";
+
+		while( i++ < maxLength ) {
+			cell = cellsContainer.appendChild(this.__cellTeamplate.cloneNode());
+			if( (0 | Math.random() * 10) % 2 == 0 ) {
+				//cell.classList.add("MODEL_active");
+			}
+			cell.style.width = cellWidth + "px";
+			cell.style.height = cellHeight + "px";
+		}
+
+	}
+
+	, checkGameStatus: function() {
+		return this.__cellsContainer.children.every(function(cell){ return cell.classList.contains("MODEL_active") });
+	}
+
+	, win: function() {
+		alert("Вы выиграли")
+	}
+};
+
+if(document.readyState == "complete")new application();
+else document.addEventListener("DOMContentLoaded", function(){new application()})
+
+}.call(this);
+/*
+var a=[
+	1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1,
+	1, 1, 1, 1, 1
+].map(function(a){ return !!a })
+
+function test(point) {
+	if(point < 0)return;
+
+	var r = 5, c = 4, f = 11, l = a.length, f;
+
+//column
+	f = point;
+	do {a[f] = !a[f]} while((f -= r) >= 0);
+	f = point;
+	while((f += r) < l){a[f] = !a[f]};
+
+//row
+	f = point;
+	if( (f % r) != 0 ) {
+		do {
+			a[f -= 1] = !a[f]
+		}
+		while ( f % r != 0 )
+	}
+	f = point;
+	while ( (f += 1) % r != 0 ) {
+		a[f] = !a[f]
+	}
+
+	return "| " + a.map(function(a, i){  return a + ((i + 1) % r == 0 ? "\n" : "")   }).join(" | ")
+}*/
+
+</script>
+
+</body>
+
+</html>
