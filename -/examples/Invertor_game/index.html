@@ -81,19 +81,6 @@ void function(){
 
 var global = this;
 
-void function(nodeList_proto) {
-	if( nodeList_proto ) {
-		//in old FF nodeList_proto.__proto__ != nodeList_proto.constructor.prototype
-		nodeList_proto = nodeList_proto.__proto__ || nodeList_proto.constructor.prototype;
-
-		if(nodeList_proto && nodeList_proto !== Array.prototype && !("map" in nodeList_proto)) {
-			["every", "filter", "forEach", "indexOf", "join", "lastIndexOf", "map", "reduce", "reduceRight", "reverse", "slice", "some", "toString"].forEach(function(key) {
-				if(!nodeList_proto[key])nodeList_proto[key] = Array.prototype[key];
-			})
-		}
-	}
-}(document.documentElement.children);
-
 function application(){
 	this.__cellsContainer = document.querySelector(".MODEL_cellsContainer");
 	this.__cellTeamplate = this.__cellsContainer.querySelector(".MODEL_cell");
@@ -189,7 +176,7 @@ application.prototype = {
 		;
 
 		while( cellsContainer.firstChild ) {//clean
-			cellsContainer.removeChild(cellsContainer.firstChild)
+			cellsContainer.firstChild.remove();
 		}
 
 		cellsContainer.style.width = cellWidth * colsCount + "px";
