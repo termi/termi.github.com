@@ -21,7 +21,7 @@
 <body>
 
 <header>
-	<h1><title>Время: #{time}</title></h1>
+	<h1><title style="display:block" id="MODEL_caption">Invertor. Кликов: #{clicks}. Время: #{time}</title></h1>
 </header>
 <main>
 	<form class="section MODEL_newGameOptions">
@@ -49,7 +49,7 @@
 			<h2>Текущая игра</h2>
 		</header>
 		<div class="data MODEL_cellsContainer">
-			<a href="#" title="Поверните" class="MODEL_cell">&nbsp;</a>
+			<a href="#" title="Поверните" class="MODEL_cell">|</a>
 		</div>
 		<style scoped="">
 			.MODEL_cellsContainer {
@@ -58,14 +58,29 @@
 			.MODEL_cell {
 				display: inline-block;
 				background-color: red;
-				content: "";
-				-webkit-transition: background-color 0.3s ease-out;  /* Safari 3.2+, Chrome */
-				-moz-transition: background-color 0.3s ease-out;  /* Firefox 4-15 */
-				-o-transition: background-color 0.3s ease-out;  /* Opera 10.5–12.00 */
-				transition: background-color 0.3s ease-out;  /* Firefox 16+, Opera 12.50+ */
+				font-size: 16px;
+				-webkit-transition: all 0.3s ease-out;  /* Safari 3.2+, Chrome */
+				-moz-transition: all 0.3s ease-out;  /* Firefox 4-15 */
+				-o-transition: all 0.3s ease-out;  /* Opera 10.5–12.00 */
+				transition: all 0.3s ease-out;  /* Firefox 16+, Opera 12.50+ */
+				-webkit-transform: rotate(0deg);
+				-moz-transform: rotate(0deg);
+				-o-transform: rotate(0deg);
+				transform: rotate(0deg);
+
+				line-height: 50px;
+				text-align: center;
+				vertical-align: middle;
+
+				text-decoration: none !important;
+				color: black !important;
 			}
 			.MODEL_cell.MODEL_active {
 				background-color: green;
+				-webkit-transform: rotate(90deg);
+				-moz-transform: rotate(90deg);
+				-o-transform: rotate(90deg);
+				transform: rotate(90deg);
 			}
 		</style>
 		<footer></footer>
@@ -85,6 +100,8 @@ function application(){
 	this.__cellsContainer = document.querySelector(".MODEL_cellsContainer");
 	this.__cellTeamplate = this.__cellsContainer.querySelector(".MODEL_cell");
 	this.__newGameOptions = document.querySelector(".MODEL_newGameOptions");
+	this.__caption = document.querySelector("#MODEL_caption");
+	this.__captionTemplate = this.__caption.innerHTML;
 
 	this.__cellHeight = 50;
 	this.__cellWidth = 50;
@@ -159,9 +176,26 @@ application.prototype = {
 
 					e.preventDefault();
 					e.stopPropagation();
+
+					this.__clickCount++;
+					this.updateCaption();
 				}
 			break;
 		}
+	}
+
+	, updateCaption: function() {
+		var thisObj = this;
+		this.__caption.innerHTML = this.__captionTemplate.replace(/(:?#{(.*?)})/g, function(str, b, paramName) {
+			switch(paramName) {
+				case "time":
+					return ((Date.now() - thisObj.__timeStart) / 100) + " сек"
+				case "clicks":
+					return thisObj.__clickCount;
+				default:
+					return str;
+			}
+		})
 	}
 
 	, startNew: function() {
@@ -173,6 +207,7 @@ application.prototype = {
 			, cell
 			, cellHeight = this.__cellHeight
 			, cellWidth = this.__cellWidth
+			, newNodes = []
 		;
 
 		while( cellsContainer.firstChild ) {//clean
@@ -183,7 +218,7 @@ application.prototype = {
 
 		while( i++ < maxLength ) {
 			cell = this.__cellTeamplate.cloneNode(true);
-			cellsContainer.append(cell);
+			newNodes.push(cell);
 			if( (0 | Math.random() * 10) % 2 == 0 ) {
 				cell.classList.add("MODEL_active");
 			}
@@ -191,6 +226,11 @@ application.prototype = {
 			cell.style.height = cellHeight + "px";
 		}
 
+		cellsContainer.append.apply(cellsContainer, newNodes);
+
+		this.__clickCount = 0;
+		this.__timeStart = Date.now();
+		this.updateCaption();
 	}
 
 	, checkGameStatus: function() {
