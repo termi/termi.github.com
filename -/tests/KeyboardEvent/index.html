@@ -45,7 +45,7 @@
 	<!--https://github.com/termi/DOM-Keyboard-Event-Level-3-polyfill-->
 	<script>
 	try{if((new KeyboardEvent("keyup",{"key":"a"}))["key"]!="a")throw new Error("")}
-	catch(e){if(!/\??noshim\&?/.test(location.search))document.write("<script src='http://h123.ru/js/DOMEventsLevel3.v2.js'><\/script>")}
+	catch(e){if(!/\??noshim\&?/.test(location.search))document.write("<scr" + "ipt src='http://h123.ru/js/DOMEventsLevel3.shim.js?1'><\/scr" + "ipt>")}
 	</script>
 </head>
 <body>
@@ -99,7 +99,7 @@
                         </td>
                         <td colspan="3">
                             <label id="keysDisplay_option_preventDefault" itemprop="option.preventDefault">
-                                <input type="checkbox" />
+                                <input type="checkbox" checked="checked" />
                                 prevent default
                             </label>
                         </td>
@@ -116,7 +116,7 @@
                         <td colspan="3">
                             <label id="keysDisplay_option_output" itemprop="option.output" itemscope="">
                                 <div style="float:left;width:35%">
-                                    <input type="checkbox" checked="checked" />
+                                    <input type="checkbox" />
                                     output
                                 </div>
                                 <div style="float:left;width:65%">
@@ -185,7 +185,8 @@ var keyboardTestApplication = new Application({
   		"keyLocation",
   		"keyIdentifier",
 
-  		"detail"
+  		"detail",
+		"isTrusted"
     ],
 
 	createDisplayTable: function(template) {
