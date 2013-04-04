@@ -149,20 +149,23 @@ void function() {
 		this.href = this.protocol + "//" + this.host + this.pathname + this.search;
 	}
 
-	var oldURL = global.URL || global.webkitURL || global.mozURL;
+	var oldURL;
+	
+	if( oldURL = global.URL || global.webkitURL || global.mozURL ) {
+		if( oldURL.createObjectURL ) {
+			_URL.createObjectURL = function(blob) {
+				return this.createObjectURL.apply(this, arguments);
+			}.bind(oldURL);
+		}
 
-	if( oldURL.createObjectURL ) {
-		_URL.createObjectURL = function(blob) {
-			return oldURL.createObjectURL.apply(oldURL, arguments);
-		};
+		if( oldURL.revokeObjectURL ) {
+			_URL.revokeObjectURL = function(url) {
+				return this.revokeObjectURL.apply(this, arguments);
+			}.bind(oldURL);
+		}
 	}
-
-
-	if( oldURL.revokeObjectURL ) {
-		_URL.revokeObjectURL = function(url) {
-			return oldURL.revokeObjectURL.apply(oldURL, arguments);
-		};
-	}
+	
+	oldURL = null;
 	/*
 	 // Methods should not be enumerable.
 	 Object.defineProperty(_URL.prototype, 'toString', {enumerable: false});
