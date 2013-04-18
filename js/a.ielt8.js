@@ -1,4 +1,4 @@
-/** @license ES6/DOM4 polyfill for IE < 8 | @version 0.8.2 | MIT License | github.com/termi */
+/** @license ES6/DOM4 polyfill for IE < 8 | @version 0.8.4 | MIT License | github.com/termi */
 
 // ==ClosureCompiler==
 // @compilation_level ADVANCED_OPTIMIZATIONS
@@ -80,13 +80,14 @@ if(!global["Document"])global["Document"] = global["DocumentFragment"];
 global["_"] = {
 	"ielt9shims": []
 	, "orig_": global["_"]//Save original "_" - we will restore it in a.js
-	, "isObject": function(object) {
+	, "isPlainObject": function(object) {
 		//Alternative from jQuery https://github.com/jquery/jquery/blob/master/src/core.js#L420
 
 		// Not plain objects:
 		// - Any object or value whose internal [[Class]] property is not "[object Object]"
 		// - DOM nodes or window - constructor is undefined (IE < 8) or internal [[Constructor]] property is not "[object Function]" (IE8)
 		// - IE6 For _Object_toString_.call(undefined) return "[object Object]"
+		// - IE < 9 For _Object_toString_.call(arguments) return "[object Object]"
 		return object
 			&& _Object_toString_.call(object) === "[object Object]"
 			&& (
@@ -96,6 +97,7 @@ global["_"] = {
 				)
 				|| object.__proto__ === null//Object.create(null).__proto__ === null
 			)
+			&& !_hasOwnProperty(object, "callee")//object is Arguments
 		;
 	}
 };
@@ -116,7 +118,7 @@ var _ = global["_"]["ielt9shims"]//"_" - container for shims what should be use 
 
 	/** @const */
   , _throw = function(errStr) {
-        throw errStr instanceof Error ? errStr : new Error(errStr);
+        throw typeof errStr == "object" && errStr instanceof Error ? errStr : new Error(errStr);
     }
 
 	/** @const */
@@ -189,18 +191,26 @@ var _ = global["_"]["ielt9shims"]//"_" - container for shims what should be use 
 	/** @const */
   , _Function_call_ = Function.prototype.call
 
-	/** Use native "bind" or unsafe bind for service and performance needs
+	/** Use native or unsafe but fast 'bind' for service and performance needs
 	 * @const
 	 * @param {Object} object
 	 * @param {...} var_args
 	 * @return {Function} */
-  , _unSafeBind_ = Function.prototype.bind || function(object, var_args) {
+  , _fastUnsafe_Function_bind_ = Function.prototype.bind || function(object, var_args) {
 		var __method = this
-			, args = _Array_slice_.call(arguments, 1)
+			, args
 		;
-		return function () {
-			return _Function_apply_.call(__method, object, args.concat(_Array_slice_.call(arguments)));
+
+		if( arguments.length > 1 ) {
+			args = _Array_slice_.call(arguments, 1);
+			return function () {
+				return _Function_apply_.call(__method, object, args.concat(_Array_slice_.call(arguments)));
+			};
 		}
+
+		return function () {
+			return _Function_apply_.call(__method, object, arguments);
+		};
 	}
 
   , emptyObjectPrototype
@@ -209,7 +219,7 @@ var _ = global["_"]["ielt9shims"]//"_" - container for shims what should be use 
 	, _Object_toString_ = Object.prototype.toString
 
 	/** @const */
-  , _hasOwnProperty = _unSafeBind_.call(_Function_call_, Object.prototype.hasOwnProperty)
+  , _hasOwnProperty = _fastUnsafe_Function_bind_.call(_Function_call_, Object.prototype.hasOwnProperty)
 
   	/** @type {Node} */
   , _testElement = document.createElement('p')
@@ -320,8 +330,8 @@ var _ = global["_"]["ielt9shims"]//"_" - container for shims what should be use 
 		'value': 'defaultValue'
 	}
 
-	// attribute referencing URI data values need special treatment in IE | From nwmatcher
-  , ATTRIBUTES_URIDATA = {
+	// attribute referencing URI data values and "disabled" attribute need special treatment in IE | From nwmatcher
+  , ATTRIBUTES_FROM_NODE_VALUE = {
 		'action': null,
 		'cite': null,
 		'codebase': null,
@@ -330,17 +340,18 @@ var _ = global["_"]["ielt9shims"]//"_" - container for shims what should be use 
 		'longdesc': null,
 		'lowsrc': null,
 		'src': null,
-		'usemap': null
+		'usemap': null,
+
+		'disabled': null
 	}
   , ATTRIBUTES_DEFAULT_MAP = {
-		'id': true,
-		'value': true,
-		'checked': true,
-		'disabled': true,
-		'ismap': true,
-		'multiple': true,
-		'readonly': true,
-		'selected': true
+		'id': null,
+		'value': null,
+		'checked': null,
+		'ismap': null,
+		'multiple': null,
+		'readonly': null,
+		'selected': null
 	}
 
 	, ATTRIBUTES_SPECIAL_MAP = {
@@ -405,6 +416,9 @@ var _ = global["_"]["ielt9shims"]//"_" - container for shims what should be use 
 	/** @type {Array.<Node>} */
   , _event_captureHandlerNodes = []
 
+	/** @type {Object} */
+  //, customEventsMap
+
   , __is__DOMContentLoaded
 
 	// ------------------------------ ==================  HTML5 shiv  ================== ------------------------------
@@ -463,7 +477,7 @@ _.push(function() {
 		if(_prototype === null) {
 			arguments[0] = emptyObjectPrototype;
 		}
-		_origina_Object_create.apply(this, arguments);
+		return _origina_Object_create.apply(this, arguments);
 	}
 });
 
@@ -1222,7 +1236,9 @@ function commonHandler(nativeEvent) {
 		nativeEvent.cancelBubble = true;//to prevent dubble event fire on window object. First emulated, second native bubbling
 	}
 
-	nativeEvent = _event = handlers = handler = null;//cleanup
+	//cleanup
+	_ielt9_Event.destroyLinkToNativeEvent.call(_event);
+	nativeEvent.currentTarget = nativeEvent["__customEvent__"] = nativeEvent = _event = handlers = handler = null;
 }
 
 if( !_testElement.addEventListener ) {
@@ -1312,7 +1328,7 @@ if( !_testElement.addEventListener ) {
 						//waits for script execution.
 						if (thisObj.readyState === 'loaded') {
 							thisObj.onreadystatechange = null;
-							thisObj.attachEvent("onreadystatechange", _unSafeBind_.call(commonHandler, thisObj, {"type" : _type}));
+							thisObj.attachEvent("onreadystatechange", _fastUnsafe_Function_bind_.call(commonHandler, thisObj, {"type" : _type}));
 						}
 					};
 					_type = "readystatechange";
@@ -1342,7 +1358,7 @@ if( !_testElement.addEventListener ) {
 		}
 
 		if( !(_callback = _[_event_handleUUID]) ) {
-			_callback = _[_event_handleUUID] = _unSafeBind_.call(commonHandler, thisObj);
+			_callback = _[_event_handleUUID] = _fastUnsafe_Function_bind_.call(commonHandler, thisObj);
 		}
 
 		if( !_[handlersKey] ) {
@@ -1778,7 +1794,7 @@ if (document.doctype === null && _browser_msie > 7)//TODO:: this fix for IE < 8
 if(!_Node_prototype.contains)_Node_prototype.contains = _Node_contains;
 if (!_Function_call_.call(_document_createTextNode, document, "").contains){
 	if(global["Text"] && global["Text"].prototype) {//IE8
-	    _.push(_unSafeBind_.call(_append, null, Text.prototype, _Node_prototype));
+	    _.push(_fastUnsafe_Function_bind_.call(_append, null, Text.prototype, _Node_prototype));
 	}
 	else {//IE < 8 TODO:: tests
 		document.createTextNode = function(text) {
@@ -1789,7 +1805,7 @@ if (!_Function_call_.call(_document_createTextNode, document, "").contains){
 	}
 }
 if (!_Function_call_.call(_document_createDocumentFragment, document).contains && global["HTMLDocument"] && global["HTMLDocument"].prototype) {
-    _.push(_unSafeBind_.call(_append, null, global["HTMLDocument"].prototype, _Node_prototype));
+    _.push(_fastUnsafe_Function_bind_.call(_append, null, global["HTMLDocument"].prototype, _Node_prototype));
 }
 
 
@@ -2210,7 +2226,7 @@ if( !global.getComputedStyle ) {//IE < 9
 	global.getComputedStyle = function(element, pseudoElt) {
         var _currentStyle = element.currentStyle || element.runtimeStyle;
 		if( !("getPropertyValue" in _currentStyle) ) {
-			element.runtimeStyle.getPropertyValue = _unSafeBind_.call(_CSSStyleDeclaration_prototype_methods["getPropertyValue"], element);
+			element.runtimeStyle.getPropertyValue = _fastUnsafe_Function_bind_.call(_CSSStyleDeclaration_prototype_methods["getPropertyValue"], element);
 
 			element.runtimeStyle.setProperty = element.runtimeStyle.removeProperty = global.getComputedStyle._fake_removeProperty;
 
@@ -2233,7 +2249,7 @@ if( !global.getComputedStyle ) {//IE < 9
 				if( propDescription ) {
 					delete _CSSStyleDeclProt["float"];
 				}
-				tmp = _unSafeBind_.call(global.getComputedStyle._getCurrentFloatValue, element);
+				tmp = _fastUnsafe_Function_bind_.call(global.getComputedStyle._getCurrentFloatValue, element);
 				Object.defineProperty(element.runtimeStyle, "float", {
 					"value" : {
 						valueOf : tmp
@@ -2252,7 +2268,7 @@ if( !global.getComputedStyle ) {//IE < 9
 				if( propDescription ) {
 					delete _CSSStyleDeclProt["opacity"];
 				}
-				tmp = _unSafeBind_.call(global.getComputedStyle._getCurrentOpacityValue, element);
+				tmp = _fastUnsafe_Function_bind_.call(global.getComputedStyle._getCurrentOpacityValue, element);
 				Object.defineProperty(element.runtimeStyle, "opacity", {
 					"value" : {
 						valueOf : tmp
@@ -2268,14 +2284,14 @@ if( !global.getComputedStyle ) {//IE < 9
 		}
 		else {
 			if( !("float" in _currentStyle) ) {
-				tmp = _unSafeBind_.call(global.getComputedStyle._getCurrentFloatValue, element);
+				tmp = _fastUnsafe_Function_bind_.call(global.getComputedStyle._getCurrentFloatValue, element);
 				element.runtimeStyle["float"] = {
 					valueOf : tmp
 					, toString: tmp
 				}
 			}
 			if( !("opacity" in _currentStyle) ) {
-				tmp = _unSafeBind_.call(global.getComputedStyle._getCurrentOpacityValue, element);
+				tmp = _fastUnsafe_Function_bind_.call(global.getComputedStyle._getCurrentOpacityValue, element);
 				element.runtimeStyle["opacity"] = {
 					valueOf : tmp
 					, toString: tmp
@@ -2338,7 +2354,7 @@ if(__GCC__INCLUDE_DOMPARSER_SHIM__) {
 					document.body.appendChild(iframe);
 					newHTMLDocument = iframe.contentDocument || iframe.contentWindow.document;
 
-					newHTMLDocument["__destroy__"] = _unSafeBind_.call(function() {
+					newHTMLDocument["__destroy__"] = _fastUnsafe_Function_bind_.call(function() {
 						var _doc = this.contentWindow.document;
 						_doc.documentElement.innerHTML = "";
 						_doc["_"] = _doc.documentElement["_"] = null;
@@ -2747,7 +2763,7 @@ var
 		else {
 			result =
 				// specific URI data attributes (parameter 2 to fix IE bug)
-				ATTRIBUTES_URIDATA[attribute] !== void 0 ?
+				ATTRIBUTES_FROM_NODE_VALUE[attribute] !== void 0 ?
 					node["__getAttribute__"](attribute, 2)
 					:
 					// boolean attributes should return name instead of true/false
@@ -3374,7 +3390,7 @@ if(!document[_tmp_]) {
 ATTRIBUTES_DEFAULT_MAP.elementsToCheck = {};
 ATTRIBUTES_DEFAULT_MAP.checkIfAttributeDefault = function(node, attrName) {
 	if(attrName in this) {
-		return this[attrName];
+		return true;
 	}
 
 	var nodeName = node.nodeName;
@@ -3398,7 +3414,7 @@ _Element_prototype.setAttribute = function(name, val, flag) {
 		if(ATTRIBUTES_CUSTOM[lowerName] !== void 0) {
 			name = ATTRIBUTES_CUSTOM[lowerName];
 		}
-		else if(ATTRIBUTES_URIDATA[lowerName] !== void 0) {
+		else if(ATTRIBUTES_FROM_NODE_VALUE[lowerName] !== void 0) {
 			flag = 2;
 		}
 		else if(lowerName.indexOf("-") === -1 && !ATTRIBUTES_DEFAULT_MAP.checkIfAttributeDefault(this, lowerName)) {
@@ -3425,7 +3441,7 @@ _Element_prototype.getAttribute = function(name, flag) {
 		return result["get"].call(this);
 	}
 
-	if(ATTRIBUTES_URIDATA[lowerName] !== void 0) {
+	if(ATTRIBUTES_FROM_NODE_VALUE[lowerName] !== void 0) {
 		return _Function_call_.call(this["__getAttribute__"], this, name, 2);
 	}
 
@@ -3470,7 +3486,7 @@ _Element_prototype.removeAttribute = function(name, flag) {
 		if(ATTRIBUTES_CUSTOM[lowerName] !== void 0) {
 			upperName = ATTRIBUTES_CUSTOM[lowerName];
 		}
-		else if(ATTRIBUTES_URIDATA[lowerName] !== void 0) {
+		else if(ATTRIBUTES_FROM_NODE_VALUE[lowerName] !== void 0) {
 			flag = 2;
 		}
 		else if(lowerName.indexOf("-") === -1 && !ATTRIBUTES_DEFAULT_MAP.checkIfAttributeDefault(this, lowerName)) {

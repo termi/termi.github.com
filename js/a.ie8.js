@@ -1239,7 +1239,7 @@ function commonHandler(nativeEvent) {
 
 	//cleanup
 	_ielt9_Event.destroyLinkToNativeEvent.call(_event);
-	nativeEvent.currentTarget = nativeEvent["__customEvent__"] = _event.currentTarget = nativeEvent = _event = handlers = handler = null;
+	nativeEvent.currentTarget = nativeEvent["__customEvent__"] = nativeEvent = _event = handlers = handler = null;
 }
 /*
 customEventsMap = {
