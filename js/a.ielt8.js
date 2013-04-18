@@ -1051,7 +1051,7 @@ function fixEvent(event) {
 
 	"eventPhase" in event || (event.eventPhase = (event.target == thisObj) ? 2 : 3); // "AT_TARGET" = 2, "BUBBLING_PHASE" = 3
 
-	"currentTarget" in event || (event.currentTarget = thisObj);
+	//"currentTarget" in event || (event.currentTarget = thisObj);
 
 	event.keyCode || (event.keyCode = event.charCode || event.which);
 
@@ -1156,7 +1156,7 @@ function commonHandler(nativeEvent) {
 		}
 
 		_event[_event_nativeEventPropName] = nativeEvent;
-		nativeEvent.currentTarget = thisObj;//TODO:: check it
+		_event.currentTarget = thisObj;//TODO:: check it
 
 		//if(!("__isFixed" in nativeEvent))nativeEvent = fixEvent.call(thisObj, nativeEvent);
 		if( "__dom0__" in nativeEvent ) {
@@ -1238,7 +1238,7 @@ function commonHandler(nativeEvent) {
 
 	//cleanup
 	_ielt9_Event.destroyLinkToNativeEvent.call(_event);
-	nativeEvent.currentTarget = nativeEvent["__customEvent__"] = nativeEvent = _event = handlers = handler = null;
+	nativeEvent["__customEvent__"] = nativeEvent = _event = handlers = handler = null;
 }
 
 if( !_testElement.addEventListener ) {
