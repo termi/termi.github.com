@@ -1181,7 +1181,12 @@ if( !function( global ) {
 
 			if( !(thisObj.type in KEYBOARD_EVENTS) )return;
 
-			if( thisObj.ctrlKey === true )return "";
+			if( thisObj.ctrlKey
+				|| thisObj.altKey
+				|| thisObj.metaKey
+			) {
+				return "";
+			}
 
 			if( "__char" in thisObj )return thisObj["__char"];
 
