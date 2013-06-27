@@ -712,8 +712,10 @@
 	(function(){
 		var offer = document.getElementById('mobileMain-offer');
 		
+		// Detect Opera Mini/Mobile
 		if( Object.prototype.toString.call(window.operamini) === "[object OperaMini]"//OperaMini
-			|| typeof window.opera === "object"//Opera ?Mobile
+			|| typeof window.opera === "object"//Opera ?Mobile 12-
+			|| navigator.userAgent.match(/(OPR)\/(\d+)/gi)//Opera Mobile 14+
 		) {
 			offer.className = offer.className + " mobileMain-offer_opera"
 		}
