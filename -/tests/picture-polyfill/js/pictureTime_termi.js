@@ -8,9 +8,13 @@
 	return !!picture.childNodes.length;
   })();
   
-  var temporaryElementName = "x-pic-source8912";
-  document.createElement(temporaryElementName);
-  document.head.insertAdjacentHTML("beforeend", "<br><style>" + temporaryElementName + "{display:none}</style>");
+  var temporaryElementName;
+
+  if( !sourceSupport ) {
+    temporaryElementName = "x-pic-source8912";
+    document.createElement(temporaryElementName);
+    (document.head || document.getElementsByTagName("head")[0]).insertAdjacentHTML("beforeend", "<br><style>" + temporaryElementName + "{display:none}</style>");
+  }
   
   function defaultGetPictures() {
 	return document.getElementsByTagName("picture");
