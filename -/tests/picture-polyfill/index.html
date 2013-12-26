@@ -5,7 +5,6 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <title>PictureTime</title>
         
-        <script src="external/matchmedia.js"></script>
         <script src="js/pictureTime_termi.js"></script>
 		<script src="js/matchMedia.js"></script>
         <style>
@@ -18,7 +17,7 @@
         
         <h1>PictureTime: A &lt;picture&gt; element polyfill, building on <a href="http://github.com/scottjehl/picturefill">picturefill</a> with Termi modifications</h1>
         
-        <picture id=test alt="Photo: Tiger in tall grass">
+        <picture id=test1 alt="Photo: Tiger in tall grass">
 			<SOURCE media="(min-width: 900px)" srcset="i/1.png" />
 			<SOURCE media="(min-width: 700px)" srcset="i/2.png">
 			<SOURCE srcset="i/3.png"/>
@@ -26,6 +25,17 @@
 			<!-- noscript prevents the image from using resources unless JS fails -->
 			<noscript>
 				<img src="i/0.png" />
+			</noscript>
+		</picture>
+        
+        <picture id=test2 alt="Photo: Tiger in tall grass">
+			<SOURCE media="(min-width: 900px)" srcset="i/0.png" />
+			<SOURCE media="(min-width: 700px)" srcset="i/1.png">
+			<SOURCE srcset="i/2.png"/>
+
+			<!-- noscript prevents the image from using resources unless JS fails -->
+			<noscript>
+				<img src="i/3.png" />
 			</noscript>
 		</picture>
     </body>
