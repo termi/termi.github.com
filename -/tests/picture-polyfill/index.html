@@ -7,6 +7,7 @@
         
         <script src="external/matchmedia.js"></script>
         <script src="js/pictureTime_termi.js"></script>
+		<script src="js/matchMedia.js"></script>
         <style>
             body { font-family: sans-serif }
             img {  max-width: 100% }
@@ -19,8 +20,8 @@
         
         <picture id=test alt="Photo: Tiger in tall grass">
 			<SOURCE media="(min-width: 900px)" srcset="i/1.png" />
-			<SOURCE media="(min-width: 700px)" srcset="i/2.png" />
-			<SOURCE srcset="i/3.png" />
+			<SOURCE media="(min-width: 700px)" srcset="i/2.png">
+			<SOURCE srcset="i/3.png"/>
 
 			<!-- noscript prevents the image from using resources unless JS fails -->
 			<noscript>

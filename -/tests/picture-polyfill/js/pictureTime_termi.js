@@ -39,8 +39,8 @@
 		
 		var pageSourceCode = xhr.responseText;
 		pageSourceCode.replace(/<picture[^>]*>([\s\S]*?)<\/picture>/gmi, function(a, strFound) {
-		  if( pictureCount < pictures.length ) {
-			pictures[pictureCount++].innerHTML = strFound.replace(/(<)source([^>]+>)/gmi, "$1" + temporaryElementName + "$2").match(new RegExp("<" + temporaryElementName + "[^>]+>", "gmi"));
+		  if( pictureCount < pictures.length ) {debugger;
+			pictures[pictureCount++].innerHTML = strFound.replace(/(<)source([^>\/]+)(.*?)\/>/gmi, "$1" + temporaryElementName + "$2$3>1</" + temporaryElementName + ">");
 		  }
 		});
 		
