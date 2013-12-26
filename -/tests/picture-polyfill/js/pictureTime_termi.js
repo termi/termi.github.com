@@ -1,7 +1,7 @@
 (function() {
   var pictureTime, stringifyPictures, watchPictures;
   
-  var sourceSupport = false && (function() {
+  var sourceSupport = (function() {
     // IE9/10 doesn't support <source> outside the <video> element
     var picture = document.createElement("picture");
 	picture.insertAdjacentHTML("afterbegin", "<source src='#' />");
