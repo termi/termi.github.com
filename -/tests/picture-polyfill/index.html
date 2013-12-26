@@ -1,0 +1,31 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <meta charset=utf-8 />
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <title>PictureTime</title>
+        
+        <script src="external/matchmedia.js"></script>
+        <script src="js/pictureTime_termi.js"></script>
+        <style>
+            body { font-family: sans-serif }
+            img {  max-width: 100% }
+        </style>
+		
+    </head>
+    <body>
+        
+        <h1>PictureTime: A &lt;picture&gt; element polyfill, building on <a href="http://github.com/scottjehl/picturefill">picturefill</a> with Termi modifications</h1>
+        
+        <picture id=test alt="Photo: Tiger in tall grass">
+			<SOURCE media="(min-width: 900px)" srcset="i/1.png" />
+			<SOURCE media="(min-width: 700px)" srcset="i/2.png" />
+			<SOURCE srcset="i/3.png" />
+
+			<!-- noscript prevents the image from using resources unless JS fails -->
+			<noscript>
+				<img src="i/0.png" />
+			</noscript>
+		</picture>
+    </body>
+</html>
